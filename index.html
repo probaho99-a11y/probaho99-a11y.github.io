@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AnatomyVerse</title>
+<title>AnatomyVerse - Explore Human Anatomy</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -17,8 +20,9 @@ scroll-behavior:smooth;
 }
 
 body{
-background:#050b18;
+background:#050816;
 color:#fff;
+overflow-x:hidden;
 }
 
 header{
@@ -26,122 +30,225 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
+padding:18px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 8%;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(10px);
-z-index:999;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(15px);
+z-index:1000;
 }
 
 .logo{
-font-size:28px;
-font-weight:bold;
-color:#00e5ff;
+font-size:30px;
+font-weight:800;
+color:#00eaff;
+}
+
+nav{
+display:flex;
+gap:30px;
 }
 
 nav a{
 color:white;
 text-decoration:none;
-margin-left:25px;
 transition:.3s;
 }
 
 nav a:hover{
-color:#00e5ff;
+color:#00eaff;
 }
 
 .hero{
+
 height:100vh;
+
 display:flex;
+
 flex-direction:column;
+
 justify-content:center;
+
 align-items:center;
+
 text-align:center;
+
 padding:20px;
-background:radial-gradient(circle,#16345c,#050b18);
+
+background:
+radial-gradient(circle at top,#1a3d7c,#050816);
+
 }
 
 .hero h1{
-font-size:60px;
+
+font-size:72px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+.hero span{
+
+color:#00eaff;
+
 }
 
 .hero p{
-margin-top:20px;
-max-width:700px;
+
 font-size:20px;
-line-height:1.8;
+
+max-width:850px;
+
+line-height:1.9;
+
 color:#ddd;
+
+}
+
+.buttons{
+
+margin-top:40px;
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
 }
 
 .btn{
-display:inline-block;
-margin-top:35px;
+
 padding:15px 35px;
-background:#00e5ff;
-color:#000;
-text-decoration:none;
-font-weight:bold;
+
 border-radius:50px;
+
+text-decoration:none;
+
+font-weight:700;
+
+transition:.4s;
+
+}
+
+.primary{
+
+background:#00eaff;
+
+color:#000;
+
+}
+
+.secondary{
+
+border:2px solid #00eaff;
+
+color:white;
+
+}
+
+.btn:hover{
+
+transform:translateY(-5px);
+
 }
 
 .section{
+
 padding:100px 8%;
+
 }
 
 .title{
+
 text-align:center;
-font-size:40px;
-margin-bottom:50px;
-color:#00e5ff;
+
+font-size:45px;
+
+margin-bottom:60px;
+
+color:#00eaff;
+
 }
 
 .cards{
+
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
 }
 
 .card{
-background:#11203a;
-padding:25px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(10px);
+
+border:1px solid rgba(255,255,255,.08);
+
 border-radius:20px;
-transition:.3s;
-text-align:center;
+
+padding:30px;
+
+transition:.4s;
+
 }
 
 .card:hover{
+
 transform:translateY(-10px);
+
+box-shadow:0 0 30px rgba(0,234,255,.35);
+
 }
 
 .card h3{
-font-size:26px;
-margin:15px 0;
+
+margin:20px 0 15px;
+
+font-size:28px;
+
 }
 
 .card p{
-color:#ccc;
-line-height:1.7;
+
+line-height:1.8;
+
+color:#d6d6d6;
+
 }
 
-footer{
-background:#000;
-text-align:center;
-padding:30px;
+.icon{
+
+font-size:60px;
+
 }
 
 @media(max-width:768px){
 
 .hero h1{
-font-size:40px;
+font-size:42px;
 }
 
 nav{
 display:none;
 }
 
+.title{
+font-size:34px;
 }
+
+}
+
 </style>
 
 </head>
@@ -150,104 +257,508 @@ display:none;
 
 <header>
 
-<div class="logo">🧠 AnatomyVerse</div>
+<div class="logo">
+
+🧠 AnatomyVerse
+
+</div>
 
 <nav>
 
-<a href="#home">Home</a>
+<a href="#">Home</a>
+
 <a href="#organs">Organs</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
+
+<a href="#">Quiz</a>
+
+<a href="#">About</a>
+
+<a href="#">Contact</a>
 
 </nav>
 
 </header>
 
-<section class="hero" id="home">
+<section class="hero">
 
-<h1>Explore Human Anatomy</h1>
+<h1>
+
+Explore <span>Human Anatomy</span>
+
+</h1>
 
 <p>
 
-Learn the human body with beautiful visuals, medical facts,
-interactive learning and future 3D models.
+A futuristic anatomy learning platform with beautiful visuals,
+interactive lessons and 3D human organs.
 
 </p>
 
-<a href="#organs" class="btn">
+<div class="buttons">
+
+<a href="#organs" class="btn primary">
 
 Start Learning
 
 </a>
 
+<a href="#organs" class="btn secondary">
+
+Explore Organs
+
+</a>
+
+</div>
+
 </section>
 
 <section class="section" id="organs">
 
-<h2 class="title">Popular Organs</h2>
+<h2 class="title">
+
+Popular Human Organs
+
+</h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>🫀 Heart</h3>
-<p>Pumps blood throughout the body.</p>
+
+<div class="icon">🫀</div>
+
+<h3>Heart</h3>
+
+<p>
+The heart pumps blood throughout the body.
+</p>
+
 </div>
 
 <div class="card">
-<h3>🧠 Brain</h3>
-<p>Controls memory, intelligence and movement.</p>
+
+<div class="icon">🧠</div>
+
+<h3>Brain</h3>
+
+<p>
+Controls thinking, memory and the nervous system.
+</p>
+
 </div>
 
 <div class="card">
-<h3>🫁 Lungs</h3>
-<p>Helps the body breathe and exchange oxygen.</p>
+
+<div class="icon">🫁</div>
+
+<h3>Lungs</h3>
+
+<p>
+Responsible for breathing and oxygen exchange.
+</p>
+
 </div>
 
 <div class="card">
-<h3>🫘 Kidney</h3>
-<p>Filters waste from the blood.</p>
+
+<div class="icon">🫘</div>
+
+<h3>Kidney</h3>
+
+<p>
+Filters blood and removes waste.
+</p>
+
+</div>
+<div class="card">
+
+<div class="icon">🫀</div>
+
+<h3>Liver</h3>
+
+<p>
+The liver cleans blood, stores energy and helps digestion.
+</p>
+
 </div>
 
 <div class="card">
-<h3>🫀 Liver</h3>
-<p>Detoxifies blood and stores nutrients.</p>
+
+<div class="icon">🦴</div>
+
+<h3>Skeleton</h3>
+
+<p>
+The skeleton supports the body and protects internal organs.
+</p>
+
 </div>
 
 <div class="card">
-<h3>🦴 Skeleton</h3>
-<p>Supports and protects the body.</p>
+
+<div class="icon">👁️</div>
+
+<h3>Eye</h3>
+
+<p>
+The eyes allow us to see colors, shapes and movement.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🦷</div>
+
+<h3>Teeth</h3>
+
+<p>
+Teeth help us bite, chew food and speak clearly.
+</p>
+
 </div>
 
 </div>
 
 </section>
 
+<section class="section">
+
+<h2 class="title">
+
+Why Choose AnatomyVerse?
+
+</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<div class="icon">🌍</div>
+
+<h3>Bilingual</h3>
+
+<p>
+Learn Anatomy in both Bangla and English.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🧩</div>
+
+<h3>Interactive Quiz</h3>
+
+<p>
+Practice your knowledge with quizzes after every topic.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">📚</div>
+
+<h3>Medical Notes</h3>
+
+<p>
+Simple and easy anatomy explanations with illustrations.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🚀</div>
+
+<h3>Future Ready</h3>
+
+<p>
+Designed for upcoming 3D anatomy models and animations.
+</p>
+
+</div>
+
+</div>
+
+</section>
 <section class="section" id="about">
 
 <h2 class="title">About AnatomyVerse</h2>
 
-<p style="max-width:900px;margin:auto;text-align:center;font-size:18px;line-height:2;">
+<div class="cards">
 
-AnatomyVerse is a modern anatomy learning platform where students can learn
-about human organs with easy explanations and interactive content.
+<div class="card">
 
+<div class="icon">🎯</div>
+
+<h3>Our Mission</h3>
+
+<p>
+Our mission is to make learning human anatomy simple, interactive and enjoyable for everyone.
 </p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">💡</div>
+
+<h3>Easy Learning</h3>
+
+<p>
+Understand complex anatomy topics with simple explanations and beautiful visuals.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🎓</div>
+
+<h3>For Everyone</h3>
+
+<p>
+Perfect for school students, college students and medical learners.
+</p>
+
+</div>
+
+</div>
 
 </section>
 
 <section class="section" id="contact">
 
-<h2 class="title">Contact</h2>
+<h2 class="title">Contact Us</h2>
 
-<p style="text-align:center;">
-Email: your@email.com
-</p>
+<div class="card" style="max-width:700px;margin:auto;">
+
+<form>
+
+<input
+type="text"
+placeholder="Your Name"
+style="width:100%;padding:15px;margin-bottom:15px;border:none;border-radius:10px;">
+
+<input
+type="email"
+placeholder="Your Email"
+style="width:100%;padding:15px;margin-bottom:15px;border:none;border-radius:10px;">
+
+<textarea
+placeholder="Your Message"
+style="width:100%;height:180px;padding:15px;border:none;border-radius:10px;"></textarea>
+
+<br><br>
+
+<button
+style="padding:15px 35px;border:none;border-radius:40px;background:#00eaff;color:#000;font-weight:bold;cursor:pointer;">
+
+Send Message
+
+</button>
+
+</form>
+
+</div>
 
 </section>
 
-<footer>
+<footer style="padding:40px;text-align:center;background:#030712;">
 
-© 2026 AnatomyVerse
+<h2 style="color:#00eaff;">🧠 AnatomyVerse</h2>
+
+<p style="margin-top:15px;color:#bbb;">
+
+© 2026 AnatomyVerse | All Rights Reserved
+
+</p>
+  <!-- STATISTICS -->
+
+<section class="section">
+
+<h2 class="title">Platform Statistics</h2>
+
+<div class="cards">
+
+<div class="card">
+<h1 id="num1">0</h1>
+<p>Human Organs</p>
+</div>
+
+<div class="card">
+<h1 id="num2">0</h1>
+<p>Medical Articles</p>
+</div>
+
+<div class="card">
+<h1 id="num3">0</h1>
+<p>Students</p>
+</div>
+
+<div class="card">
+<h1 id="num4">0</h1>
+<p>Quiz Questions</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- NEWSLETTER -->
+
+<section class="section">
+
+<h2 class="title">Newsletter</h2>
+
+<div style="max-width:600px;margin:auto;text-align:center;">
+
+<input
+type="email"
+placeholder="Enter your email"
+style="width:100%;padding:18px;border:none;border-radius:50px;font-size:18px;">
+
+<br><br>
+
+<button style="
+padding:15px 35px;
+background:#00eaff;
+border:none;
+border-radius:50px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+">
+
+Subscribe
+
+</button>
+
+</div>
+
+</section>
+
+<button id="themeBtn">🌙</button>
+
+<button id="topBtn">⬆</button>
+
+<style>
+
+#themeBtn{
+
+position:fixed;
+left:20px;
+bottom:20px;
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:#00eaff;
+font-size:24px;
+cursor:pointer;
+z-index:999;
+
+}
+
+#topBtn{
+
+position:fixed;
+right:20px;
+bottom:20px;
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:#00eaff;
+font-size:24px;
+cursor:pointer;
+display:none;
+z-index:999;
+
+}
+
+</style>
+
+<script>
+
+function counter(id,end){
+
+let n=0;
+
+const timer=setInterval(()=>{
+
+n++;
+
+document.getElementById(id).innerHTML=n+"+";
+
+if(n>=end){
+
+clearInterval(timer);
+
+}
+
+},20);
+
+}
+
+counter("num1",78);
+counter("num2",520);
+counter("num3",25000);
+counter("num4",1600);
+
+const topBtn=document.getElementById("topBtn");
+
+window.addEventListener("scroll",()=>{
+
+topBtn.style.display=
+window.scrollY>300?"block":"none";
+
+});
+
+topBtn.onclick=function(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+};
+
+let dark=true;
+
+document.getElementById("themeBtn").onclick=function(){
+
+if(dark){
+
+document.body.style.background="#ffffff";
+
+document.body.style.color="#111";
+
+document.querySelectorAll(".card").forEach(card=>{
+
+card.style.background="#f5f5f5";
+
+card.style.color="#111";
+
+});
+
+this.innerHTML="☀️";
+
+dark=false;
+
+}else{
+
+location.reload();
+
+}
+
+};
+
+</script>
 
 </footer>
 
