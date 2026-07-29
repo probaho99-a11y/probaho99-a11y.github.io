@@ -3,23 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anatomy 3D</title>
+<title>AnatomyVerse</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Poppins,sans-serif;
+font-family:'Poppins',sans-serif;
 scroll-behavior:smooth;
 }
 
 body{
-background:#07111f;
-color:white;
+background:#050b18;
+color:#fff;
 }
 
 header{
@@ -27,18 +26,18 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
-padding:15px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(12px);
-z-index:1000;
+padding:20px 8%;
+background:rgba(0,0,0,.5);
+backdrop-filter:blur(10px);
+z-index:999;
 }
 
 .logo{
 font-size:28px;
-font-weight:700;
+font-weight:bold;
 color:#00e5ff;
 }
 
@@ -61,36 +60,30 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-url("https://images.unsplash.com/photo-1532187643603-ba119ca4109e?auto=format&fit=crop&w=1600&q=80");
-background-size:cover;
-background-position:center;
+background:radial-gradient(circle,#16345c,#050b18);
 }
 
 .hero h1{
 font-size:60px;
-margin-bottom:20px;
 }
 
 .hero p{
+margin-top:20px;
 max-width:700px;
 font-size:20px;
 line-height:1.8;
+color:#ddd;
 }
 
 .btn{
-margin-top:30px;
-padding:15px 40px;
+display:inline-block;
+margin-top:35px;
+padding:15px 35px;
 background:#00e5ff;
 color:#000;
-border-radius:40px;
 text-decoration:none;
 font-weight:bold;
-transition:.4s;
-}
-
-.btn:hover{
-transform:scale(1.1);
+border-radius:50px;
 }
 
 .section{
@@ -99,8 +92,8 @@ padding:100px 8%;
 
 .title{
 text-align:center;
-font-size:42px;
-margin-bottom:60px;
+font-size:40px;
+margin-bottom:50px;
 color:#00e5ff;
 }
 
@@ -111,38 +104,44 @@ gap:25px;
 }
 
 .card{
-background:#12233d;
+background:#11203a;
+padding:25px;
 border-radius:20px;
-overflow:hidden;
-transition:.4s;
+transition:.3s;
+text-align:center;
 }
 
 .card:hover{
 transform:translateY(-10px);
 }
 
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
 .card h3{
-padding:20px;
-font-size:24px;
+font-size:26px;
+margin:15px 0;
 }
 
 .card p{
-padding:0 20px 20px;
+color:#ccc;
+line-height:1.7;
 }
 
 footer{
 background:#000;
-padding:40px;
 text-align:center;
-margin-top:60px;
+padding:30px;
 }
 
+@media(max-width:768px){
+
+.hero h1{
+font-size:40px;
+}
+
+nav{
+display:none;
+}
+
+}
 </style>
 
 </head>
@@ -151,13 +150,11 @@ margin-top:60px;
 
 <header>
 
-<div class="logo">
-🧠 Anatomy3D
-</div>
+<div class="logo">🧠 AnatomyVerse</div>
 
 <nav>
 
-<a href="#">Home</a>
+<a href="#home">Home</a>
 <a href="#organs">Organs</a>
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
@@ -166,531 +163,93 @@ margin-top:60px;
 
 </header>
 
-<section class="hero">
+<section class="hero" id="home">
 
 <h1>Explore Human Anatomy</h1>
 
 <p>
-Learn the Human Body with Interactive 3D Models,
-Beautiful Images and Easy Explanations.
+
+Learn the human body with beautiful visuals, medical facts,
+interactive learning and future 3D models.
+
 </p>
 
-<a class="btn" href="#organs">
-    <!-- ORGANS -->
+<a href="#organs" class="btn">
+
+Start Learning
+
+</a>
+
+</section>
 
 <section class="section" id="organs">
 
-<h2 class="title">Human Organs</h2>
+<h2 class="title">Popular Organs</h2>
 
 <div class="cards">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=800&q=80">
 <h3>🫀 Heart</h3>
-<p>The heart pumps blood throughout the body and supplies oxygen to every organ.</p>
+<p>Pumps blood throughout the body.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80">
 <h3>🧠 Brain</h3>
-<p>The brain controls thinking, memory, movement, emotions and all body functions.</p>
+<p>Controls memory, intelligence and movement.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80">
 <h3>🫁 Lungs</h3>
-<p>The lungs bring oxygen into the body and remove carbon dioxide.</p>
+<p>Helps the body breathe and exchange oxygen.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80">
-<h3>🫀 Liver</h3>
-<p>The liver filters blood, stores nutrients and removes harmful substances.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=80">
 <h3>🫘 Kidney</h3>
-<p>The kidneys filter waste from blood and produce urine.</p>
+<p>Filters waste from the blood.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&fit=crop&w=800&q=80">
+<h3>🫀 Liver</h3>
+<p>Detoxifies blood and stores nutrients.</p>
+</div>
+
+<div class="card">
 <h3>🦴 Skeleton</h3>
-<p>The skeleton supports the body and protects internal organs.</p>
+<p>Supports and protects the body.</p>
 </div>
 
 </div>
 
 </section>
 
-<!-- ABOUT -->
-
 <section class="section" id="about">
 
-<h2 class="title">About Anatomy 3D</h2>
+<h2 class="title">About AnatomyVerse</h2>
 
-<p style="text-align:center;max-width:900px;margin:auto;font-size:20px;line-height:2;">
+<p style="max-width:900px;margin:auto;text-align:center;font-size:18px;line-height:2;">
 
-Welcome to Anatomy 3D Learning Platform.
-
-Here you can explore human organs with beautiful visuals, learn organ functions,
-study anatomy in an easy way, and prepare for medical studies.
-
-This website is designed for students, teachers and anyone interested in human anatomy.
+AnatomyVerse is a modern anatomy learning platform where students can learn
+about human organs with easy explanations and interactive content.
 
 </p>
 
 </section>
-Start Learning
-</a>
-
-    </section>
-    <!-- SEARCH -->
-
-<section class="section">
-
-<h2 class="title">Search Organs</h2>
-
-<div style="text-align:center;margin-bottom:40px;">
-
-<input
-type="text"
-id="search"
-placeholder="Search organ..."
-style="padding:15px;width:320px;border-radius:40px;border:none;font-size:18px;">
-
-</div>
-
-</section>
-
-<!-- CONTACT -->
 
 <section class="section" id="contact">
 
 <h2 class="title">Contact</h2>
 
-<div style="max-width:700px;margin:auto;">
-
-<input
-type="text"
-placeholder="Your Name"
-style="width:100%;padding:15px;margin:10px 0;border:none;border-radius:10px;">
-
-<input
-type="email"
-placeholder="Your Email"
-style="width:100%;padding:15px;margin:10px 0;border:none;border-radius:10px;">
-
-<textarea
-placeholder="Message"
-style="width:100%;height:180px;padding:15px;margin:10px 0;border:none;border-radius:10px;"></textarea>
-
-<button class="btn">
-Send Message
-</button>
-
-</div>
+<p style="text-align:center;">
+Email: your@email.com
+</p>
 
 </section>
-
-<button id="topBtn">
-
-⬆
-
-</button>
 
 <footer>
 
-<h2>Anatomy3D</h2>
-
-<p>
-
-© 2026 All Rights Reserved
-
-</p>
+© 2026 AnatomyVerse
 
 </footer>
 
-<style>
-
-#topBtn{
-
-position:fixed;
-
-bottom:20px;
-
-right:20px;
-
-width:55px;
-
-height:55px;
-
-border:none;
-
-border-radius:50%;
-
-background:#00e5ff;
-
-font-size:22px;
-
-cursor:pointer;
-
-display:none;
-
-}
-
-</style>
-
-<script>
-
-const topBtn=document.getElementById("topBtn");
-
-window.onscroll=function(){
-
-if(document.documentElement.scrollTop>300){
-
-topBtn.style.display="block";
-
-}else{
-
-topBtn.style.display="none";
-
-}
-
-}
-
-topBtn.onclick=function(){
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-}
-
-<!-- FEATURES -->
-
-<section class="section">
-
-<h2 class="title">Why Choose Anatomy3D?</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>🧠 3D Learning</h3>
-<p>Explore human anatomy with interactive 3D visualization.</p>
-</div>
-
-<div class="card">
-<h3>📚 Easy Notes</h3>
-<p>Simple explanations for every organ in English and Bangla.</p>
-</div>
-
-<div class="card">
-<h3>📝 Quiz</h3>
-<p>Test your knowledge with interactive quizzes.</p>
-</div>
-
-<div class="card">
-<h3>🔬 Medical Facts</h3>
-<p>Learn organ functions, diseases and interesting facts.</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- FAQ -->
-
-<section class="section">
-
-<h2 class="title">Frequently Asked Questions</h2>
-
-<div class="card">
-
-<h3>What is Human Anatomy?</h3>
-
-<p>
-Human anatomy is the scientific study of the structure of the human body.
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Can I use this website for study?</h3>
-
-<p>
-Yes. This website is designed for students, teachers and medical learners.
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Is Anatomy3D Free?</h3>
-
-<p>
-Yes, this educational website is completely free to use.
-</p>
-
-</div>
-
-</section>
-
-<!-- SOCIAL -->
-
-<section class="section">
-
-<h2 class="title">Follow Us</h2>
-
-<div style="text-align:center;font-size:20px;line-height:2.5">
-
-<a href="#" style="color:#00e5ff;text-decoration:none;">Facebook</a> |
-<a href="#" style="color:#00e5ff;text-decoration:none;">YouTube</a> |
-<a href="#" style="color:#00e5ff;text-decoration:none;">GitHub</a> |
-<a href="#" style="color:#00e5ff;text-decoration:none;">LinkedIn</a>
-
-</div>
-
-</section>
-<!-- DARK MODE BUTTON -->
-
-<button id="themeBtn" style="
-position:fixed;
-left:20px;
-bottom:20px;
-width:60px;
-height:60px;
-border:none;
-border-radius:50%;
-background:#00e5ff;
-font-size:24px;
-cursor:pointer;
-z-index:999;
-">
-🌙
-</button>
-
-<script>
-
-const themeBtn=document.getElementById("themeBtn");
-
-let dark=true;
-
-themeBtn.onclick=function(){
-
-if(dark){
-
-document.body.style.background="#ffffff";
-document.body.style.color="#111111";
-
-document.querySelectorAll(".card").forEach(card=>{
-card.style.background="#f4f4f4";
-card.style.color="#111";
-});
-
-document.querySelector("header").style.background="#ffffffdd";
-
-themeBtn.innerHTML="☀️";
-
-dark=false;
-
-}else{
-
-document.body.style.background="#07111f";
-document.body.style.color="white";
-
-document.querySelectorAll(".card").forEach(card=>{
-card.style.background="#12233d";
-card.style.color="white";
-});
-
-document.querySelector("header").style.background="rgba(0,0,0,.4)";
-
-themeBtn.innerHTML="🌙";
-
-dark=true;
-
-}
-
-};
-
-</script>
-
-<script>
-
-// ORGAN SEARCH
-
-const search=document.getElementById("search");
-
-search.addEventListener("keyup",function(){
-
-let value=this.value.toLowerCase();
-
-document.querySelectorAll(".card").forEach(card=>{
-
-let text=card.innerText.toLowerCase();
-
-if(text.indexOf(value)>-1){
-
-card.style.display="block";
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-});
-
-</script>
-
-<script>
-
-// SIMPLE FADE ANIMATION
-
-const cards=document.querySelectorAll(".card");
-
-window.addEventListener("scroll",()=>{
-
-cards.forEach(card=>{
-
-const top=card.getBoundingClientRect().top;
-
-if(top<window.innerHeight-100){
-
-card.style.opacity="1";
-
-card.style.transform="translateY(0)";
-
-}
-
-});
-
-});
-
-cards.forEach(card=>{
-
-card.style.opacity="0";
-
-card.style.transform="translateY(60px)";
-
-card.style.transition=".8s";
-
-});
-
-</script></script>
-
-<!-- STATISTICS -->
-
-<section class="section">
-
-<h2 class="title">Website Statistics</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3 id="c1">0</h3>
-<p>Human Organs</p>
-</div>
-
-<div class="card">
-<h3 id="c2">0</h3>
-<p>Medical Articles</p>
-</div>
-
-<div class="card">
-<h3 id="c3">0</h3>
-<p>Students</p>
-</div>
-
-<div class="card">
-<h3 id="c4">0</h3>
-<p>Quiz Questions</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- NEWSLETTER -->
-
-<section class="section">
-
-<h2 class="title">Newsletter</h2>
-
-<div style="text-align:center">
-
-<input
-type="email"
-placeholder="Enter your Email"
-style="
-width:320px;
-padding:15px;
-border:none;
-border-radius:30px;
-font-size:18px;
-">
-
-<button class="btn">
-Subscribe
-</button>
-
-</div>
-
-</section>
-
-<script>
-
-function counter(id,end){
-
-let count=0;
-
-let speed=Math.ceil(end/100);
-
-let x=setInterval(function(){
-
-count+=speed;
-
-if(count>=end){
-
-count=end;
-
-clearInterval(x);
-
-}
-
-document.getElementById(id).innerHTML=count+"+";
-
-},20);
-
-}
-
-counter("c1",78);
-counter("c2",500);
-counter("c3",25000);
-counter("c4",1200);
-
-</script>
-
-<script>
-
-// CURRENT YEAR
-
-document.querySelector("footer p").innerHTML=
-"© "+new Date().getFullYear()+" Anatomy3D. All Rights Reserved.";
-
-</script></body>
-
-    </html>
+</body>
+</html>
