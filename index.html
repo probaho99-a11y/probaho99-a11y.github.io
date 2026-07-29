@@ -1,766 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AnatomyVerse - Explore Human Anatomy</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
-
-body{
-background:#050816;
-color:#fff;
-overflow-x:hidden;
-}
-
-header{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:18px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,.45);
-backdrop-filter:blur(15px);
-z-index:1000;
-}
-
-.logo{
-font-size:30px;
-font-weight:800;
-color:#00eaff;
-}
-
-nav{
-display:flex;
-gap:30px;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-transition:.3s;
-}
-
-nav a:hover{
-color:#00eaff;
-}
-
-.hero{
-
-height:100vh;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-text-align:center;
-
-padding:20px;
-
-background:
-radial-gradient(circle at top,#1a3d7c,#050816);
-
-}
-
-.hero h1{
-
-font-size:72px;
-
-font-weight:800;
-
-margin-bottom:20px;
-
-}
-
-.hero span{
-
-color:#00eaff;
-
-}
-
-.hero p{
-
-font-size:20px;
-
-max-width:850px;
-
-line-height:1.9;
-
-color:#ddd;
-
-}
-
-.buttons{
-
-margin-top:40px;
-
-display:flex;
-
-gap:20px;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
-}
-
-.btn{
-
-padding:15px 35px;
-
-border-radius:50px;
-
-text-decoration:none;
-
-font-weight:700;
-
-transition:.4s;
-
-}
-
-.primary{
-
-background:#00eaff;
-
-color:#000;
-
-}
-
-.secondary{
-
-border:2px solid #00eaff;
-
-color:white;
-
-}
-
-.btn:hover{
-
-transform:translateY(-5px);
-
-}
-
-.section{
-
-padding:100px 8%;
-
-}
-
-.title{
-
-text-align:center;
-
-font-size:45px;
-
-margin-bottom:60px;
-
-color:#00eaff;
-
-}
-
-.cards{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-gap:30px;
-
-}
-
-.card{
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(10px);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:20px;
-
-padding:30px;
-
-transition:.4s;
-
-}
-
-.card:hover{
-
-transform:translateY(-10px);
-
-box-shadow:0 0 30px rgba(0,234,255,.35);
-
-}
-
-.card h3{
-
-margin:20px 0 15px;
-
-font-size:28px;
-
-}
-
-.card p{
-
-line-height:1.8;
-
-color:#d6d6d6;
-
-}
-
-.icon{
-
-font-size:60px;
-
-}
-
-@media(max-width:768px){
-
-.hero h1{
-font-size:42px;
-}
-
-nav{
-display:none;
-}
-
-.title{
-font-size:34px;
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnatomyVerse — Explore the Human Body in 3D</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-dark: #050716;
+            --neon-blue: #00f0ff;
+            --neon-purple: #7000ff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(0, 240, 255, 0.2);
+            --text-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Orbitron', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+        }
+
+        /* Header & Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box input {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #fff;
+            outline: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--neon-purple);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--neon-purple);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            color: #fff;
+            border: none;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--neon-blue);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        /* Organ Grid Section */
+        .organ-section {
+            padding: 50px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--neon-blue);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Organ Detail View Modal/Section */
+        .detail-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-dark);
+            z-index: 200;
+            overflow-y: auto;
+            padding: 40px 5%;
+        }
+
+        .detail-view.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            cursor: pointer;
+        }
+
+        .detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 400px;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .info-box {
+            background: var(--glass-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .info-box h3 {
+            color: var(--neon-blue);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .detail-container { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-
-<div class="logo">
-
-🧠 AnatomyVerse
-
-</div>
-
-<nav>
-
-<a href="#">Home</a>
-
-<a href="#organs">Organs</a>
-
-<a href="#">Quiz</a>
-
-<a href="#">About</a>
-
-<a href="#">Contact</a>
-
-</nav>
-
-</header>
-
-<section class="hero">
-
-<h1>
-
-Explore <span>Human Anatomy</span>
-
-</h1>
-
-<p>
-
-A futuristic anatomy learning platform with beautiful visuals,
-interactive lessons and 3D human organs.
-
-</p>
-
-<div class="buttons">
-
-<a href="#organs" class="btn primary">
-
-Start Learning
-
-</a>
-
-<a href="#organs" class="btn secondary">
-
-Explore Organs
-
-</a>
-
-</div>
-
-</section>
-
-<section class="section" id="organs">
-
-<h2 class="title">
-
-Popular Human Organs
-
-</h2>
-
-<div class="cards">
-
-<div class="card">
-
-<div class="icon">🫀</div>
-
-<h3>Heart</h3>
-
-<p>
-The heart pumps blood throughout the body.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🧠</div>
-
-<h3>Brain</h3>
-
-<p>
-Controls thinking, memory and the nervous system.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🫁</div>
-
-<h3>Lungs</h3>
-
-<p>
-Responsible for breathing and oxygen exchange.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🫘</div>
-
-<h3>Kidney</h3>
-
-<p>
-Filters blood and removes waste.
-</p>
-
-</div>
-<div class="card">
-
-<div class="icon">🫀</div>
-
-<h3>Liver</h3>
-
-<p>
-The liver cleans blood, stores energy and helps digestion.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🦴</div>
-
-<h3>Skeleton</h3>
-
-<p>
-The skeleton supports the body and protects internal organs.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">👁️</div>
-
-<h3>Eye</h3>
-
-<p>
-The eyes allow us to see colors, shapes and movement.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🦷</div>
-
-<h3>Teeth</h3>
-
-<p>
-Teeth help us bite, chew food and speak clearly.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<h2 class="title">
-
-Why Choose AnatomyVerse?
-
-</h2>
-
-<div class="cards">
-
-<div class="card">
-
-<div class="icon">🌍</div>
-
-<h3>Bilingual</h3>
-
-<p>
-Learn Anatomy in both Bangla and English.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🧩</div>
-
-<h3>Interactive Quiz</h3>
-
-<p>
-Practice your knowledge with quizzes after every topic.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">📚</div>
-
-<h3>Medical Notes</h3>
-
-<p>
-Simple and easy anatomy explanations with illustrations.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🚀</div>
-
-<h3>Future Ready</h3>
-
-<p>
-Designed for upcoming 3D anatomy models and animations.
-</p>
-
-</div>
-
-</div>
-
-</section>
-<section class="section" id="about">
-
-<h2 class="title">About AnatomyVerse</h2>
-
-<div class="cards">
-
-<div class="card">
-
-<div class="icon">🎯</div>
-
-<h3>Our Mission</h3>
-
-<p>
-Our mission is to make learning human anatomy simple, interactive and enjoyable for everyone.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">💡</div>
-
-<h3>Easy Learning</h3>
-
-<p>
-Understand complex anatomy topics with simple explanations and beautiful visuals.
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🎓</div>
-
-<h3>For Everyone</h3>
-
-<p>
-Perfect for school students, college students and medical learners.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section" id="contact">
-
-<h2 class="title">Contact Us</h2>
-
-<div class="card" style="max-width:700px;margin:auto;">
-
-<form>
-
-<input
-type="text"
-placeholder="Your Name"
-style="width:100%;padding:15px;margin-bottom:15px;border:none;border-radius:10px;">
-
-<input
-type="email"
-placeholder="Your Email"
-style="width:100%;padding:15px;margin-bottom:15px;border:none;border-radius:10px;">
-
-<textarea
-placeholder="Your Message"
-style="width:100%;height:180px;padding:15px;border:none;border-radius:10px;"></textarea>
-
-<br><br>
-
-<button
-style="padding:15px 35px;border:none;border-radius:40px;background:#00eaff;color:#000;font-weight:bold;cursor:pointer;">
-
-Send Message
-
-</button>
-
-</form>
-
-</div>
-
-</section>
-
-<footer style="padding:40px;text-align:center;background:#030712;">
-
-<h2 style="color:#00eaff;">🧠 AnatomyVerse</h2>
-
-<p style="margin-top:15px;color:#bbb;">
-
-© 2026 AnatomyVerse | All Rights Reserved
-
-</p>
-  <!-- STATISTICS -->
-
-<section class="section">
-
-<h2 class="title">Platform Statistics</h2>
-
-<div class="cards">
-
-<div class="card">
-<h1 id="num1">0</h1>
-<p>Human Organs</p>
-</div>
-
-<div class="card">
-<h1 id="num2">0</h1>
-<p>Medical Articles</p>
-</div>
-
-<div class="card">
-<h1 id="num3">0</h1>
-<p>Students</p>
-</div>
-
-<div class="card">
-<h1 id="num4">0</h1>
-<p>Quiz Questions</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- NEWSLETTER -->
-
-<section class="section">
-
-<h2 class="title">Newsletter</h2>
-
-<div style="max-width:600px;margin:auto;text-align:center;">
-
-<input
-type="email"
-placeholder="Enter your email"
-style="width:100%;padding:18px;border:none;border-radius:50px;font-size:18px;">
-
-<br><br>
-
-<button style="
-padding:15px 35px;
-background:#00eaff;
-border:none;
-border-radius:50px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-">
-
-Subscribe
-
-</button>
-
-</div>
-
-</section>
-
-<button id="themeBtn">🌙</button>
-
-<button id="topBtn">⬆</button>
-
-<style>
-
-#themeBtn{
-
-position:fixed;
-left:20px;
-bottom:20px;
-width:60px;
-height:60px;
-border:none;
-border-radius:50%;
-background:#00eaff;
-font-size:24px;
-cursor:pointer;
-z-index:999;
-
-}
-
-#topBtn{
-
-position:fixed;
-right:20px;
-bottom:20px;
-width:60px;
-height:60px;
-border:none;
-border-radius:50%;
-background:#00eaff;
-font-size:24px;
-cursor:pointer;
-display:none;
-z-index:999;
-
-}
-
-</style>
-
-<script>
-
-function counter(id,end){
-
-let n=0;
-
-const timer=setInterval(()=>{
-
-n++;
-
-document.getElementById(id).innerHTML=n+"+";
-
-if(n>=end){
-
-clearInterval(timer);
-
-}
-
-},20);
-
-}
-
-counter("num1",78);
-counter("num2",520);
-counter("num3",25000);
-counter("num4",1600);
-
-const topBtn=document.getElementById("topBtn");
-
-window.addEventListener("scroll",()=>{
-
-topBtn.style.display=
-window.scrollY>300?"block":"none";
-
-});
-
-topBtn.onclick=function(){
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-};
-
-let dark=true;
-
-document.getElementById("themeBtn").onclick=function(){
-
-if(dark){
-
-document.body.style.background="#ffffff";
-
-document.body.style.color="#111";
-
-document.querySelectorAll(".card").forEach(card=>{
-
-card.style.background="#f5f5f5";
-
-card.style.color="#111";
-
-});
-
-this.innerHTML="☀️";
-
-dark=false;
-
-}else{
-
-location.reload();
-
-}
-
-};
-
-</script>
-
-</footer>
-
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">🧠 AnatomyVerse</div>
+        <div class="nav-controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="অঙ্গ খুঁজুন... / Search..." onkeyup="filterOrgans()">
+            </div>
+            <button class="lang-btn" onclick="toggleLanguage()">🇧🇩 BN / 🇬🇧 EN</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 id="heroTitle">Explore the Human Body in 3D</h1>
+        <p id="heroSubtitle">মানবদেহের রহস্য উন্মোচন করুন ফিউচারিস্টিক ৩ডি প্রযুক্তির মাধ্যমে</p>
+        <div class="btn-group">
+            <a href="#organs" class="btn btn-primary">Start Learning</a>
+            <a href="#organs" class="btn btn-secondary">Explore Organs</a>
+        </div>
+    </section>
+
+    <!-- Organ Cards Section -->
+    <section class="organ-section" id="organs">
+        <h2 class="section-title">অঙ্গসমূহ নির্বাচন করুন (Select Organ)</h2>
+        <div class="grid" id="organGrid">
+            <!-- Cards will be populated dynamically -->
+        </div>
+    </section>
+
+    <!-- Detailed View Modal -->
+    <div class="detail-view" id="detailView">
+        <span class="close-btn" onclick="closeDetail()">&times;</span>
+        <div class="detail-container">
+            <!-- 3D Model Viewer -->
+            <div>
+                <model-viewer id="organModel" src="" alt="3D Organ" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+            </div>
+            
+            <!-- Details Info -->
+            <div>
+                <h1 id="detailName" style="color: var(--neon-blue); margin-bottom: 20px;">Organ Name</h1>
+                
+                <div class="info-box">
+                    <h3>⚙️ কাজ (Function)</h3>
+                    <p id="detailFunction">---</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📍 অবস্থান (Location)</h3>
+                    <p id="detailLocation">---</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>🩺 সম্ভাব্য রোগ (Diseases)</h3>
+                    <p id="detailDiseases">---</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>💡 অজানা তথ্য (Interesting Facts)</h3>
+                    <p id="detailFacts">---</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure
+        const organsData = [
+            {
+                id: 'heart',
+                nameBn: '❤️ হৃদপিণ্ড (Heart)',
+                nameEn: '❤️ Heart',
+                icon: '🫀',
+                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Demo 3D Model URL
+                function: 'সারা শরীরে রক্ত পাম্প করে অক্সিজেন ও পুষ্টি উপাদান পৌঁছানো।',
+                location: 'বুকের মাঝখানে সামান্য বাম দিকে।',
+                diseases: 'হার্ট অ্যাটাক, তারতম্যহীন রক্তচাপ, করোনোরি আর্টারি ডিজিজ।',
+                facts: 'মানব হৃদপিণ্ড প্রতিদিন প্রায় ১,০০,০০০ বার স্পন্দিত হয়।'
+            },
+            {
+                id: 'brain',
+                nameBn: '🧠 মস্তিষ্ক (Brain)',
+                nameEn: '🧠 Brain',
+                icon: '🧠',
+                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                function: 'দেহের সকল চিন্তাভাবনা, স্মৃতি ও অঙ্গপ্রত্যঙ্গ নিয়ন্ত্রণ করা।',
+                location: 'মাথার খুলির (Skull) ভেতরে।',
+                diseases: 'স্ট্রোক, আলঝেইমার, পারকিনসন্স।',
+                facts: 'মস্তিষ্ক মানবদেহের মোট শক্তির প্রায় ২০% খরচ করে।'
+            },
+            {
+                id: 'lungs',
+                nameBn: '🫁 ফুসফুস (Lungs)',
+                nameEn: '🫁 Lungs',
+                icon: '🫁',
+                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                function: 'বাতাস থেকে অক্সিজেন গ্রহণ এবং কার্বন ডাই অক্সাইড ত্যাগ করা।',
+                location: 'বক্ষ গহ্বরের দুই পাশে।',
+                diseases: 'অ্যাজমা, নিউমোনিয়া, সিওপিডি (COPD)।',
+                facts: 'ডান ফুসফুসটি বাম ফুসফুসের চেয়ে আকারে কিছুটা বড়।'
+            },
+            {
+                id: 'kidney',
+                nameBn: '🫘 কিডনি (Kidney)',
+                nameEn: '🫘 Kidney',
+                icon: '🫘',
+                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                function: 'রক্ত ছেঁকে বর্জ্য পদার্থ প্রস্রাব হিসেবে বের করে দেওয়া।',
+                location: 'পেটের পেছনের অংশে মেরুদণ্ডের দু’পাশে।',
+                diseases: 'কিডনি পাথর, ক্রনিক কিডনি ডিজিজ।',
+                facts: 'প্রতিদিন কিডনি প্রায় ১৮০ লিটার রক্ত ফিল্টার করে।'
+            }
+        ];
+
+        // Render Cards
+        function renderCards(data) {
+            const grid = document.getElementById('organGrid');
+            grid.innerHTML = '';
+            data.forEach(organ => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openDetail(organ);
+                card.innerHTML = `
+                    <span class="card-icon">${organ.icon}</span>
+                    <h3>${organ.nameBn}</h3>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Live Search
+        function filterOrgans() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = organsData.filter(organ => 
+                organ.nameBn.toLowerCase().includes(query) || 
+                organ.nameEn.toLowerCase().includes(query)
+            );
+            renderCards(filtered);
+        }
+
+        // Detail View Open/Close
+        function openDetail(organ) {
+            document.getElementById('detailName').innerText = organ.nameBn;
+            document.getElementById('detailFunction').innerText = organ.function;
+            document.getElementById('detailLocation').innerText = organ.location;
+            document.getElementById('detailDiseases').innerText = organ.diseases;
+            document.getElementById('detailFacts').innerText = organ.facts;
+            document.getElementById('organModel').setAttribute('src', organ.modelUrl);
+            
+            document.getElementById('detailView').classList.add('active');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailView').classList.remove('active');
+        }
+
+        // Initial Load
+        renderCards(organsData);
+    </script>
 </body>
 </html>
