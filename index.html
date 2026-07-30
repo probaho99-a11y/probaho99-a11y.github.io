@@ -1,535 +1,1899 @@
+                                                             ```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnatomyVerse — Futuristic 3D Human Anatomy</title>
-    <!-- Fonts & Model-Viewer -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>AnatomyVerse · Cyber Medical</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
 
-    <style>
-        :root {
-            --bg-dark: #030511;
-            --neon-blue: #00f0ff;
-            --neon-purple: #8a2be2;
-            --glass-bg: rgba(10, 15, 35, 0.55);
-            --glass-border: rgba(0, 240, 255, 0.25);
-            --text-color: #f1f5f9;
-        }
+    body {
+      background: #0b0d1a;
+      color: #e0f0ff;
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+      background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.02) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(150, 0, 255, 0.03) 0%, transparent 50%);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', 'Orbitron', sans-serif;
-            scroll-behavior: smooth;
-        }
+    /* glassmorphism + glow */
+    .glass-card {
+      background: rgba(18, 28, 46, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.05) inset;
+      border-radius: 2.5rem;
+      transition: all 0.3s ease;
+    }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-color);
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(138, 43, 226, 0.18) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.18) 0%, transparent 40%);
-        }
+    .glass-card:hover {
+      border-color: #7a5cff;
+      box-shadow: 0 8px 40px rgba(90, 0, 255, 0.3), 0 0 20px rgba(0, 200, 255, 0.2);
+    }
 
-        /* Navbar Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            background: rgba(3, 5, 17, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* ---------- LAYOUT ---------- */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
 
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 12px var(--neon-blue);
-            letter-spacing: 1px;
-        }
+    /* header / language toggle */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      align-items: center;
+    }
 
-        .nav-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      color: #b0daff;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 20, 40, 0.3);
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-        .search-box input {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 8px 18px;
-            border-radius: 25px;
-            color: #fff;
-            outline: none;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
+    .lang-btn.active {
+      background: #1f3a6b;
+      border-color: #7fc9ff;
+      color: white;
+      box-shadow: 0 0 15px #1f9aff55;
+    }
 
-        .search-box input:focus {
-            box-shadow: 0 0 15px var(--neon-blue);
-            border-color: var(--neon-blue);
-        }
+    .lang-btn i {
+      margin-right: 6px;
+    }
 
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--neon-purple);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--neon-purple);
-            transition: 0.3s;
-            font-weight: 600;
-        }
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
 
-        .lang-btn:hover {
-            background: var(--neon-purple);
-        }
+    .hero h1 {
+      font-size: clamp(2.8rem, 12vw, 5.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #b3f0ff, #a77cff, #d28aff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px #3f6bff55, 0 0 80px #a44bff33;
+      margin-bottom: 0.5rem;
+    }
 
-        /* Hero Section */
-        .hero {
-            min-height: 65vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
+    .hero p {
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      color: #b7d6ff;
+      background: rgba(0, 20, 50, 0.3);
+      backdrop-filter: blur(4px);
+      display: inline-block;
+      padding: 0.4rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #3f7bff33;
+      margin-bottom: 2rem;
+    }
 
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            background: linear-gradient(45deg, var(--neon-blue), #ff007f, var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-        }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
+    .btn-primary {
+      background: linear-gradient(145deg, #1f5aff, #883cff);
+      border: none;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 0 30px #3c6eff77, 0 0 10px #a06eff55;
+      transition: 0.25s;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-        .btn-group {
-            display: flex;
-            gap: 20px;
-        }
+    .btn-primary i {
+      margin-right: 10px;
+    }
 
-        .btn {
-            padding: 12px 32px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .btn-primary:hover {
+      transform: scale(1.02) translateY(-3px);
+      box-shadow: 0 0 50px #5f7eff, 0 0 20px #b47aff;
+    }
 
-        .btn-primary {
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            color: #fff;
-            border: none;
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #6b9aff;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #cbe3ff;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 10, 30, 0.3);
+      transition: 0.2s;
+      cursor: pointer;
+    }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px var(--neon-blue);
-        }
+    .btn-outline i {
+      margin-right: 8px;
+    }
 
-        .btn-secondary {
-            background: var(--glass-bg);
-            color: #fff;
-            border: 1px solid var(--glass-border);
-        }
+    .btn-outline:hover {
+      background: #1f3b77;
+      border-color: #aac9ff;
+      box-shadow: 0 0 30px #3366ff44;
+    }
 
-        .btn-secondary:hover {
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 15px var(--neon-purple);
-        }
+    /* organ grid */
+    .organ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.8rem;
+      margin: 3rem 0 2rem;
+    }
 
-        /* Organ Grid Section */
-        .organ-section {
-            padding: 40px 5%;
-        }
+    .organ-card {
+      background: rgba(12, 22, 44, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      border-radius: 2.5rem;
+      padding: 1.8rem 0.8rem;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      color: #e3f0ff;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 40px;
-            color: var(--neon-blue);
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
+    .organ-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(0, 200, 255, 0.03), transparent 60%);
+      pointer-events: none;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+    .organ-card i {
+      font-size: 3.6rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      filter: drop-shadow(0 0 15px #2f7fff55);
+      color: #a8d4ff;
+      transition: 0.2s;
+    }
 
-        /* Glassmorphism Cards */
-        .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            transition: 0.4s ease;
-            cursor: pointer;
-            position: relative;
-        }
+    .organ-card span {
+      font-weight: 500;
+      font-size: 1.15rem;
+      display: block;
+      letter-spacing: 0.3px;
+      color: #d0eaff;
+    }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
-        }
+    .organ-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #7a9cff;
+      box-shadow: 0 12px 40px #1f4bff33, 0 0 30px #4f7aff22;
+      background: rgba(25, 45, 80, 0.6);
+    }
 
-        .card-icon {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            display: block;
-            filter: drop-shadow(0 0 10px var(--neon-blue));
-        }
+    .organ-card:hover i {
+      color: #b3d9ff;
+      filter: drop-shadow(0 0 30px #4d8aff);
+    }
 
-        .card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-        }
+    /* scroll down */
+    .scroll-hint {
+      text-align: center;
+      margin: 2.5rem 0 0.5rem;
+      color: #6889bb;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      animation: floatDown 2.5s infinite ease-in-out;
+    }
 
-        /* Organ Detail Modal */
-        .detail-view {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(3, 5, 17, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 40px 5%;
-        }
+    .scroll-hint i {
+      display: block;
+      font-size: 1.8rem;
+      margin-top: 4px;
+      color: #6d9eff;
+    }
 
-        .detail-view.active {
-            display: block;
-        }
+    @keyframes floatDown {
+      0% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(8px); }
+      100% { opacity: 0.4; transform: translateY(0); }
+    }
 
-        .close-btn {
-            position: fixed;
-            top: 25px;
-            right: 35px;
-            font-size: 2.5rem;
-            color: var(--neon-blue);
-            cursor: pointer;
-            z-index: 2100;
-            transition: 0.3s;
-        }
+    /* ---------- DETAIL PANEL (organ page) ---------- */
+    #detailPanel {
+      margin-top: 3rem;
+      display: none;
+      animation: fadeSlide 0.4s ease;
+    }
 
-        .close-btn:hover {
-            color: #ff007f;
-            transform: scale(1.2);
-        }
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
 
-        .detail-container {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-            max-width: 1300px;
-            margin: 40px auto;
-        }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2.2rem;
+      padding: 2rem 1.8rem;
+    }
 
-        .model-container {
-            width: 100%;
-            height: 520px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-        }
+    .detail-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
 
-        model-viewer, iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+    .detail-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
 
-        .info-box {
-            background: var(--glass-bg);
-            padding: 22px;
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
-            margin-bottom: 20px;
-        }
+    .detail-block {
+      background: rgba(8, 18, 40, 0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 2rem;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
 
-        .info-box h3 {
-            color: var(--neon-blue);
-            margin-bottom: 8px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .detail-block h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 500;
+      color: #b0d5ff;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #3f6b9933;
+      padding-bottom: 0.5rem;
+    }
 
-        /* Interactive Quiz Box */
-        .quiz-box {
-            background: rgba(138, 43, 226, 0.15);
-            border: 1px solid var(--neon-purple);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
+    .detail-block h3 i {
+      color: #6f9eff;
+      font-size: 1.3rem;
+    }
 
-        .quiz-option {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 10px 15px;
-            margin: 8px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .detail-block p, .detail-block li {
+      color: #d0e5ff;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
 
-        .quiz-option:hover {
-            background: var(--neon-purple);
-            color: #fff;
-        }
+    .detail-block ul {
+      list-style: none;
+      padding-left: 0.2rem;
+    }
 
-        @media (max-width: 900px) {
-            .hero h1 { font-size: 2.3rem; }
-            .detail-container { grid-template-columns: 1fr; }
-            .model-container { height: 380px; }
-        }
-    </style>
+    .detail-block ul li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #2f4a7733;
+    }
+
+    .detail-block ul li:last-child {
+      border: none;
+    }
+
+    .badge-fact {
+      display: inline-block;
+      background: #1f3b77;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #b3d9ff;
+      border: 1px solid #4f7aff44;
+    }
+
+    .model-3d-placeholder {
+      background: #0c1a30;
+      border-radius: 2rem;
+      padding: 2rem 1rem;
+      text-align: center;
+      border: 1px dashed #6f9eff66;
+      box-shadow: 0 0 40px #1f4bff22;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .model-3d-placeholder i {
+      font-size: 4rem;
+      color: #5f8eff;
+      filter: drop-shadow(0 0 25px #3f7aff);
+    }
+
+    .model-3d-placeholder span {
+      color: #95baff;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid #3f7aff55;
+      color: #bbd9ff;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .back-btn:hover {
+      background: #1f3b77;
+      border-color: #8cb3ff;
+    }
+
+    /* search */
+    .live-search {
+      display: flex;
+      justify-content: center;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .live-search input {
+      width: 100%;
+      max-width: 480px;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      background: rgba(8, 20, 48, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3f7aff44;
+      color: #e0f0ff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .live-search input::placeholder {
+      color: #6a8fc0;
+    }
+
+    .live-search input:focus {
+      border-color: #7aa5ff;
+      box-shadow: 0 0 30px #2f6aff33;
+      background: rgba(12, 28, 58, 0.7);
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+        padding: 1.2rem;
+      }
+      .organ-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+      .lang-bar {
+        justify-content: center;
+      }
+      .hero h1 {
+        font-size: 3.2rem;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .btn-primary, .btn-outline {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* utility */
+    .mt-1 { margin-top: 0.6rem; }
+    .mb-1 { margin-bottom: 0.6rem; }
+    .flex { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  </style>
 </head>
 <body>
+<div class="container" id="app">
 
-    <!-- Top Navigation -->
-    <header>
-        <div class="logo">🧠 AnatomyVerse</div>
-        <div class="nav-controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search Organ / খুঁজুন..." onkeyup="filterOrgans()">
-            </div>
-            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🇧🇩 BN</button>
-        </div>
-    </header>
+  <!-- language toggle -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="langBn"><i class="fas fa-language"></i> বাংলা</button>
+    <button class="lang-btn" id="langEn"><i class="fas fa-globe"></i> English</button>
+  </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 id="heroTitle">Explore Human Body in 3D</h1>
-        <p id="heroSubtitle">সাইবার মেডিকেল প্রযুক্তির সাহায্যে মানবদেহের রহস্য ও ৩ডি অঙ্গ-প্রত্যঙ্গ আবিষ্কার করুন।</p>
-        <div class="btn-group">
-            <a href="#organs" class="btn btn-primary" id="btnStart">Start Learning</a>
-            <a href="#organs" class="btn btn-secondary" id="btnExplore">Explore Organs</a>
-        </div>
-    </section>
-
-    <!-- Organ Cards Section -->
-    <section class="organ-section" id="organs">
-        <h2 class="section-title" id="secTitle">অঙ্গসমূহ নির্বাচন করুন (Select Organ)</h2>
-        <div class="grid" id="organGrid"></div>
-    </section>
-
-    <!-- Organ Detail Modal -->
-    <div class="detail-view" id="detailView">
-        <span class="close-btn" onclick="closeDetail()">&times;</span>
-        <div class="detail-container">
-            <!-- Interactive 3D Model Display -->
-            <div class="model-container" id="modelHolder"></div>
-            
-            <!-- Details Info -->
-            <div>
-                <h1 id="detailName" style="color: var(--neon-blue); margin-bottom: 20px; font-family: 'Orbitron';">Organ Name</h1>
-                
-                <div class="info-box">
-                    <h3>⚙️ <span class="lbl-func">কাজ (Function)</span></h3>
-                    <p id="detailFunction">---</p>
-                </div>
-                
-                <div class="info-box">
-                    <h3>📍 <span class="lbl-loc">অবস্থান (Location)</span></h3>
-                    <p id="detailLocation">---</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>🩺 <span class="lbl-dis">সম্ভাব্য রোগ (Diseases)</span></h3>
-                    <p id="detailDiseases">---</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>💡 <span class="lbl-fact">অজানা তথ্য (Facts)</span></h3>
-                    <p id="detailFacts">---</p>
-                </div>
-
-                <!-- Interactive Quiz -->
-                <div class="quiz-box">
-                    <h3 style="color: #ff007f; margin-bottom: 10px;">❓ <span class="lbl-quiz">কুইজ (Quick Quiz)</span></h3>
-                    <p id="quizQuestion" style="margin-bottom: 10px; font-weight: 600;"></p>
-                    <div id="quizOptions"></div>
-                    <p id="quizResult" style="margin-top: 10px; font-weight: bold;"></p>
-                </div>
-            </div>
-        </div>
+  <!-- HERO -->
+  <section class="hero glass-card" style="border-radius: 3rem; padding: 2.5rem 1.5rem;">
+    <h1>🧠 AnatomyVerse</h1>
+    <p id="heroSub">Explore the Human Body in 3D</p>
+    <div class="hero-actions">
+      <button class="btn-primary" id="startLearningBtn"><i class="fas fa-play-circle"></i> <span id="startLabel">Start Learning</span></button>
+      <button class="btn-outline" id="exploreOrgansBtn"><i class="fas fa-heartbeat"></i> <span id="exploreLabel">Explore Organs</span></button>
     </div>
+  </section>
 
-    <script>
-        let currentLang = 'BN'; // Default Language
+  <!-- live search -->
+  <div class="live-search">
+    <input type="text" id="searchInput" placeholder="🔍 Search organs...  (যেমন: Heart)">
+  </div>
 
-        // Database with 3D Models (Interactive Skeleton, Heart, Brain, Lungs, Kidney)
-        const organsData = [
-            {
-                id: 'skeleton',
-                nameBn: '🦴 কঙ্কালতন্ত্র (Skeleton)',
-                nameEn: '🦴 Human Skeleton',
-                icon: '🦴',
-                type: 'sketchfab',
-                // Interactive 3D Skeleton Model Embed
-                embedUrl: 'https://sketchfab.com/models/bf3299863a8341ae91be983696f01a35/embed?autostart=1&ui_theme=dark',
-                funcBn: 'শরীরের মূল কাঠামো প্রদান করা, চালচলনে সাহায্য করা এবং অভ্যন্তরীণ অঙ্গগুলোকে সুরক্ষিত রাখা।',
-                funcEn: 'Provides structural framework, enables movement, and protects vital organs.',
-                locBn: 'সমগ্র মানবদেহ জুড়িয়া (মাথা থেকে পা পর্যন্ত)।',
-                locEn: 'Throughout the whole body (Head to Toe).',
-                disBn: 'অস্টিওপোরোসিস, হাড় ফ্র্যাকচার, আর্থ্রাইটিস।',
-                disEn: 'Osteoporosis, Bone Fractures, Arthritis.',
-                factBn: 'এক একজন পূর্ণবয়স্ক মানুষের শরীরে ২০৬ টি হাড় থাকে, কিন্তু জন্মের সময় থাকে প্রায় ৩০০টি!',
-                factEn: 'An adult human body has 206 bones, but born with around 300 bones!',
-                quizBn: 'মানবদেহের সবচেয়ে ছোট হাড় কোনটি?',
-                quizEn: 'Which is the smallest bone in the human body?',
-                optionsBn: ['ফিমার (Femur)', 'স্টেপিস (Stapes)', 'হিউমেরাস (Humerus)'],
-                optionsEn: ['Femur', 'Stapes', 'Humerus'],
-                correct: 1
-            },
-            {
-                id: 'heart',
-                nameBn: '❤️ হৃদপিণ্ড (Heart)',
-                nameEn: '❤️ Human Heart',
-                icon: '🫀',
-                type: 'sketchfab',
-                embedUrl: 'https://sketchfab.com/models/11cb75470d0d4f268b8b0e00d9f48508/embed?autostart=1&ui_theme=dark',
-                funcBn: 'রক্ত সংবহন তন্ত্রের মাধ্যমে সারা শরীরে অক্সিজেন ও পুষ্টি উপাদান পাম্প করা।',
-                funcEn: 'Pumps blood throughout the body via circulatory system delivering oxygen and nutrients.',
-                locBn: 'বক্ষ গহ্বরের মাঝখানে, কিছুটা বাম দিকে হেলানো।',
-                locEn: 'In the middle of chest, slightly tilted to the left.',
-                disBn: 'করোনারি আর্টারি ডিজিজ, হার্ট অ্যাটাক, উচ্চ রক্তচাপ।',
-                disEn: 'Coronary Artery Disease, Heart Attack, Hypertension.',
-                factBn: 'মানব হৃদপিণ্ড প্রতিদিন গড়ে প্রায় ১,০০,০০০ বার স্পন্দিত হয়!',
-                factEn: 'The human heart beats approximately 100,000 times per day!',
-                quizBn: 'হৃদপিণ্ডের কোন অংশ সারা শরীরে বিশুদ্ধ রক্ত পাম্প করে?',
-                quizEn: 'Which heart chamber pumps oxygenated blood to the body?',
-                optionsBn: ['ডান অলিন্দ', 'বাম নিলয় (Left Ventricle)', 'ডান নিলয়'],
-                optionsEn: ['Right Atrium', 'Left Ventricle', 'Right Ventricle'],
-                correct: 1
-            },
-            {
-                id: 'brain',
-                nameBn: '🧠 মস্তিষ্ক (Brain)',
-                nameEn: '🧠 Human Brain',
-                icon: '🧠',
-                type: 'glb',
-                embedUrl: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/BrainStem/glTF-Binary/BrainStem.glb',
-                funcBn: 'চিন্তাভাবনা, অনুভূতি, স্মৃতি এবং শরীরের সমস্ত ঐচ্ছিক ও অনৈচ্ছিক কাজ নিয়ন্ত্রণ করা।',
-                funcEn: 'Controls thought, memory, emotion, touch, motor skills, and body processes.',
-                locBn: 'মাথার খুলি (Skull) এর সুরক্ষিত ভেতরের অংশে।',
-                locEn: 'Inside the skull (Cranium).',
-                disBn: 'স্ট্রোক, আলঝেইমার, পারকিনসন্স, ব্রেন টিউমার।',
-                disEn: 'Stroke, Alzheimer\'s, Parkinson\'s, Brain Tumor.',
-                factBn: 'মানব মস্তিষ্কদেহের মোট শক্তির প্রায় ২০% একাই ব্যবহার করে।',
-                factEn: 'The brain uses about 20% of the body\'s total energy.',
-                quizBn: 'মস্তিষ্কের কোন অংশ ভারসাম্য বজায় রাখতে সাহায্য করে?',
-                quizEn: 'Which part of the brain controls body balance?',
-                optionsBn: ['সেরিব্রাম', 'সেরিবেলাম (Cerebellum)', 'মেডুলা'],
-                optionsEn: ['Cerebrum', 'Cerebellum', 'Medulla'],
-                correct: 1
-            },
-            {
-                id: 'lungs',
-                nameBn: '🫁 ফুসফুস (Lungs)',
-                nameEn: '🫁 Human Lungs',
-                icon: '🫁',
-                type: 'sketchfab',
-                embedUrl: 'https://sketchfab.com/models/30026e6ec35b4ee382cb7427f717dd37/embed?autostart=1&ui_theme=dark',
-                funcBn: 'শ্বাসপ্রশ্বাসের মাধ্যমে অক্সিজেন গ্রহণ ও ক্ষতিকারক কার্বন ডাই অক্সাইড বের করা।',
-                funcEn: 'Transfers oxygen into blood and removes carbon dioxide during respiration.',
-                locBn: 'বুকের ভেতরে হৃদপিণ্ডের উভয় পাশে।',
-                locEn: 'On either side of the chest cavity.',
-                disBn: 'অ্যাজমা, নিউমোনিয়া, সিওপিডি (COPD), ফুসফুসের ক্যান্সার।',
-                disEn: 'Asthma, Pneumonia, COPD, Lung Cancer.',
-                factBn: 'ডান ফুসফুসটি বাম ফুসফুসের চেয়ে কিছুটা বড়, কারণ বাম পাশে হৃদপিণ্ডের জায়গা দিতে হয়।',
-                factEn: 'Right lung is slightly larger than the left to accommodate the heart.',
-                quizBn: 'ফুসফুসে গ্যাস বিনিময়ের মূল একক কোনটি?',
-                quizEn: 'What is the main unit of gas exchange in lungs?',
-                optionsBn: ['নেফ্রন', 'অ্যালভিওলাই (Alveoli)', 'নিউরিয়া'],
-                optionsEn: ['Nephron', 'Alveoli', 'Neuron'],
-                correct: 1
-            }
-        ];
+  <!-- organ grid -->
+  <div class="organ-grid" id="organGrid"></div>
 
-        // Render Organ Cards dynamically
-        function renderCards(data) {
-            const grid = document.getElementById('organGrid');
-            grid.innerHTML = '';
-            data.forEach(organ => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openDetail(organ);
-                card.innerHTML = `
-                    <span class="card-icon">${organ.icon}</span>
-                    <h3>${currentLang === 'BN' ? organ.nameBn : organ.nameEn}</h3>
-                `;
-                grid.appendChild(card);
-            });
-        }
+  <!-- scroll hint -->
+  <div class="scroll-hint">
+    <span id="scrollText">✨ Scroll Down</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
 
-        // Live Search Filter
-        function filterOrgans() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = organsData.filter(organ => 
-                organ.nameBn.toLowerCase().includes(query) || 
-                organ.nameEn.toLowerCase().includes(query)
-            );
-            renderCards(filtered);
-        }
+  <!-- DETAIL PANEL (organ page) -->
+  <div id="detailPanel" class="glass-card" style="border-radius: 2.5rem; overflow: hidden;">
+    <div style="padding: 1.2rem 1.8rem 0;">
+      <button class="back-btn" id="closeDetail"><i class="fas fa-arrow-left"></i> <span id="backLabel">Back to organs</span></button>
+    </div>
+    <div class="detail-grid" id="detailContent">
+      <!-- dynamic content rendered by js -->
+    </div>
+  </div>
 
-        // Open 3D Organ Detail View Modal
-        function openDetail(organ) {
-            document.getElementById('detailName').innerText = currentLang === 'BN' ? organ.nameBn : organ.nameEn;
-            document.getElementById('detailFunction').innerText = currentLang === 'BN' ? organ.funcBn : organ.funcEn;
-            document.getElementById('detailLocation').innerText = currentLang === 'BN' ? organ.locBn : organ.locEn;
-            document.getElementById('detailDiseases').innerText = currentLang === 'BN' ? organ.disBn : organ.disEn;
-            document.getElementById('detailFacts').innerText = currentLang === 'BN' ? organ.factBn : organ.factEn;
-            
-            // Set Quiz Content
-            document.getElementById('quizQuestion').innerText = currentLang === 'BN' ? organ.quizBn : organ.quizEn;
-            const optionsContainer = document.getElementById('quizOptions');
-            optionsContainer.innerHTML = '';
-            document.getElementById('quizResult').innerText = '';
+</div>
 
-            const options = currentLang === 'BN' ? organ.optionsBn : organ.optionsEn;
-            options.forEach((opt, idx) => {
-                const btn = document.createElement('div');
-                btn.className = 'quiz-option';
-                btn.innerText = opt;
-                btn.onclick = () => checkQuiz(idx, organ.correct);
-                optionsContainer.appendChild(btn);
-            });
+<script>
+  (function() {
+    // ---------- DATA ----------
+    const organsData = [
+      { id: 'heart', nameBn: '❤️ Heart', nameEn: '❤️ Heart', icon: 'fas fa-heart', 
+        function: 'পাম্প করে রক্ত সারা শরীরে।', functionEn: 'Pumps blood throughout the body.',
+        location: 'বুকের মাঝখানে, ফুসফুসের মাঝে।', locationEn: 'Middle of chest, between lungs.',
+        diseases: 'হার্ট অ্যাটাক, করোনারি আর্টারি ডিজিজ, হার্ট ফেইলিউর।', diseasesEn: 'Heart attack, CAD, heart failure.',
+        quiz: 'প্রাপ্তবয়স্ক মানুষের হৃদয় প্রতিদিন প্রায় কতবার স্পন্দিত হয়?', quizEn: 'How many times does an adult heart beat per day?',
+        facts: 'প্রতিদিন ~১,১৫,০০০ বার স্পন্দিত হয়।', factsEn: 'Beats ~115,000 times/day.' },
+      { id: 'brain', nameBn: '🧠 Brain', nameEn: '🧠 Brain', icon: 'fas fa-brain',
+        function: 'শরীরের নিয়ন্ত্রণ কেন্দ্র।', functionEn: 'Control center of the body.',
+        location: 'মাথার খুলির ভিতরে।', locationEn: 'Inside the skull.',
+        diseases: 'মাইগ্রেন, স্ট্রোক, আলঝেইমার।', diseasesEn: 'Migraine, stroke, Alzheimer\'s.',
+        quiz: 'মস্তিষ্কের ওজন প্রায় কত?', quizEn: 'Approx. weight of human brain?',
+        facts: '~১.৩-১.৪ কেজি, ৮৬ বিলিয়ন নিউরন।', factsEn: '~1.3-1.4 kg, 86B neurons.' },
+      { id: 'lungs', nameBn: '🫁 Lungs', nameEn: '🫁 Lungs', icon: 'fas fa-lungs',
+        function: 'অক্সিজেন গ্রহণ ও CO₂ বের করা।', functionEn: 'Oxygen intake & CO₂ removal.',
+        location: 'বুকের গহ্বর, হৃদয়ের দুই পাশে।', locationEn: 'Chest cavity, either side of heart.',
+        diseases: 'অ্যাজমা, নিউমোনিয়া, ফুসফুসের ক্যান্সার।', diseasesEn: 'Asthma, pneumonia, lung cancer.',
+        quiz: 'একজন প্রাপ্তবয়স্ক প্রতিদিন কতবার শ্বাস নেয়?', quizEn: 'How many breaths per day?',
+        facts: 'প্রতিদিন ~২০,০০০ বার শ্বাস।', factsEn: '~20,000 breaths/day.' },
+      { id: 'kidney', nameBn: '🫘 Kidney', nameEn: '🫘 Kidney', icon: 'fas fa-filter',
+        function: 'রক্ত পরিশোধন ও পানি ভারসাম্য।', functionEn: 'Blood filtration & water balance.',
+        location: 'পিঠের দুই পাশে, কোমরের কাছে।', locationEn: 'Either side of spine, lower back.',
+        diseases: 'কিডনি ইনফেকশন, স্টোন, ক্রনিক কিডনি ডিজিজ।', diseasesEn: 'Infection, stones, CKD.',
+        quiz: 'কিডনি প্রতি মিনিটে কতটুকু রক্ত ফিল্টার করে?', quizEn: 'How much blood does kidney filter per min?',
+        facts: 'প্রতি মিনিটে ~১.২ লিটার রক্ত ফিল্টার।', factsEn: '~1.2L blood filtered/min.' },
+      { id: 'liver', nameBn: '🫀 Liver', nameEn: '🫀 Liver', icon: 'fas fa-hand-holding-heart',
+        function: 'বিপাক, ডিটক্স, পিত্ত উৎপাদন।', functionEn: 'Metabolism, detox, bile production.',
+        location: 'পেটের ডান উপরের অংশে।', locationEn: 'Upper right abdomen.',
+        diseases: 'হেপাটাইটিস, ফ্যাটি লিভার, সিরোসিস।', diseasesEn: 'Hepatitis, fatty liver, cirrhosis.',
+        quiz: 'লিভারের ওজন কত?', quizEn: 'Weight of liver?',
+        facts: '~১.৪ কেজি, ৫০০+ কার্য সম্পাদন করে।', factsEn: '~1.4kg, 500+ functions.' },
+      { id: 'skeleton', nameBn: '🦴 Skeleton', nameEn: '🦴 Skeleton', icon: 'fas fa-bone',
+        function: 'শরীরের কাঠামো, অঙ্গ সুরক্ষা।', functionEn: 'Body structure, organ protection.',
+        location: 'সারা শরীর জুড়ে।', locationEn: 'Throughout the body.',
+        diseases: 'অস্টিওপোরোসিস, আর্থ্রাইটিস, ফ্র্যাকচার।', diseasesEn: 'Osteoporosis, arthritis, fractures.',
+        quiz: 'মানবদেহে কতটি হাড় আছে?', quizEn: 'How many bones in human body?',
+        facts: 'শিশুদের ~২৭০, প্রাপ্তবয়স্কদের ~২০৬টি।', factsEn: 'Babies ~270, adults ~206.' }
+    ];
 
-            // Handle 3D Model Rendering (Sketchfab iframe or GLB mo
+    // extra organs for rich experience (total 8)
+    const extraOrgans = [
+      { id: 'stomach', nameBn: '🫃 Stomach', nameEn: '🫃 Stomach', icon: 'fas fa-utensils',
+        function: 'খাবার হজম ও সংরক্ষণ।', functionEn: 'Digestion & food storage.',
+        location: 'পেটের বাম উপরের অংশ।', locationEn: 'Left upper abdomen.',
+        diseases: 'গ্যাস্ট্রাইটিস, আলসার, ক্যান্সার।', diseasesEn: 'Gastritis, ulcer, cancer.',
+        quiz: 'পাকস্থলীর রসের pH কত?', quizEn: 'pH of stomach acid?',
+        facts: 'pH ~১.৫-৩.৫, খুব অম্লীয়।', factsEn: 'pH ~1.5-3.5, highly acidic.' },
+      { id: 'intestine', nameBn: '🫄 Intestine', nameEn: '🫄 Intestine', icon: 'fas fa-dna',
+        function: 'পুষ্টি শোষণ ও বর্জ্য অপসারণ।', functionEn: 'Nutrient absorption & waste removal.',
+        location: 'পেটের মাঝামাঝি থেকে নিচ পর্যন্ত।', locationEn: 'Mid to lower abdomen.',
+        diseases: 'ক্রোনস, IBS, কোলাইটিস।', diseasesEn: 'Crohn\'s, IBS, colitis.',
+        quiz: 'ক্ষুদ্রান্ত্রের দৈর্ঘ্য কত?', quizEn: 'Length of small intestine?',
+        facts: 'প্রায় ৬ মিটার লম্বা।', factsEn: '~6 meters long.' }
+    ];
+
+    const allOrgans = [...organsData, ...extraOrgans];
+    let currentLang = 'bn'; // 'bn' or 'en'
+    let currentOrganId = null;
+
+    // DOM refs
+    const grid = document.getElementById('organGrid');
+    const searchInput = document.getElementById('searchInput');
+    const detailPanel = document.getElementById('detailPanel');
+    const detailContent = document.getElementById('detailContent');
+    const closeDetailBtn = document.getElementById('closeDetail');
+    const langBn = document.getElementById('langBn');
+    const langEn = document.getElementById('langEn');
+
+    // hero text elements
+    const heroSub = document.getElementById('heroSub');
+    const startLabel = document.getElementById('startLabel');
+    const exploreLabel = document.getElementById('exploreLabel');
+    const scrollText = document.getElementById('scrollText');
+    const backLabel = document.getElementById('backLabel');
+
+    // ----- RENDER GRID -----
+    function renderOrganGrid(filter = '') {
+      const q = filter.toLowerCase().trim();
+      let filtered = allOrgans;
+      if (q) {
+        filtered = allOrgans.filter(o => {
+          const name = currentLang === 'bn' ? o.nameBn : o.nameEn;
+          return name.toLowerCase().includes(q);
+        });
+      }
+      grid.innerHTML = '';
+      filtered.forEach(org => {
+        const card = document.createElement('div');
+        card.className = 'organ-card';
+        const displayName = currentLang === 'bn' ? org.nameBn : org.nameEn;
+        card.innerHTML = `<i class="${org.icon}"></i><span>${displayName}</span>`;
+        card.dataset.id = org.id;
+        card.addEventListener('click', () => openDetail(org.id));
+        grid.appendChild(card);
+      });
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#7799cc;">${currentLang === 'bn' ? 'কোন অঙ্গ পাওয়া যায়নি' : 'No organs found'}</div>`;
+      }
+    }
+
+    // ----- OPEN DETAIL -----
+    function openDetail(id) {
+      const org = allOrgans.find(o => o.id === id);
+      if (!org) return;
+      currentOrganId = id;
+      const lang = currentLang;
+      const isBn = lang === 'bn';
+
+      const name = isBn ? org.nameBn : org.nameEn;
+      const func = isBn ? org.function : org.functionEn;
+      const loc = isBn ? org.location : org.locationEn;
+      const dis = isBn ? org.diseases : org.diseasesEn;
+      const quiz = isBn ? org.quiz : org.quizEn;
+      const facts = isBn ? org.facts : org.factsEn;
+
+      detailContent.innerHTML = `
+        <div class="detail-left">
+          <div class="detail-block">
+            <h3><i class="fas fa-cube"></i> 3D Model</h3>
+            <div class="model-3d-placeholder">
+              <i class="${org.icon}" style="font-size:5rem;"></i>
+              <span>${isBn ? '🔮 ৩ডি মডেল (ইন্টারেক্টিভ)' : '🔮 3D Model (interactive)'}</span>
+              <span style="font-size:0.8rem; opacity:0.6;">${isBn ? 
+
+
+
+
+
+
+
+                                                             ```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>AnatomyVerse · Cyber Medical</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #0b0d1a;
+      color: #e0f0ff;
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+      background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.02) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(150, 0, 255, 0.03) 0%, transparent 50%);
+    }
+
+    /* glassmorphism + glow */
+    .glass-card {
+      background: rgba(18, 28, 46, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.05) inset;
+      border-radius: 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: #7a5cff;
+      box-shadow: 0 8px 40px rgba(90, 0, 255, 0.3), 0 0 20px rgba(0, 200, 255, 0.2);
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header / language toggle */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      color: #b0daff;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 20, 40, 0.3);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .lang-btn.active {
+      background: #1f3a6b;
+      border-color: #7fc9ff;
+      color: white;
+      box-shadow: 0 0 15px #1f9aff55;
+    }
+
+    .lang-btn i {
+      margin-right: 6px;
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 12vw, 5.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #b3f0ff, #a77cff, #d28aff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px #3f6bff55, 0 0 80px #a44bff33;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      color: #b7d6ff;
+      background: rgba(0, 20, 50, 0.3);
+      backdrop-filter: blur(4px);
+      display: inline-block;
+      padding: 0.4rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #3f7bff33;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #1f5aff, #883cff);
+      border: none;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 0 30px #3c6eff77, 0 0 10px #a06eff55;
+      transition: 0.25s;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary i {
+      margin-right: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02) translateY(-3px);
+      box-shadow: 0 0 50px #5f7eff, 0 0 20px #b47aff;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #6b9aff;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #cbe3ff;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 10, 30, 0.3);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-outline i {
+      margin-right: 8px;
+    }
+
+    .btn-outline:hover {
+      background: #1f3b77;
+      border-color: #aac9ff;
+      box-shadow: 0 0 30px #3366ff44;
+    }
+
+    /* organ grid */
+    .organ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.8rem;
+      margin: 3rem 0 2rem;
+    }
+
+    .organ-card {
+      background: rgba(12, 22, 44, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      border-radius: 2.5rem;
+      padding: 1.8rem 0.8rem;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      color: #e3f0ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .organ-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(0, 200, 255, 0.03), transparent 60%);
+      pointer-events: none;
+    }
+
+    .organ-card i {
+      font-size: 3.6rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      filter: drop-shadow(0 0 15px #2f7fff55);
+      color: #a8d4ff;
+      transition: 0.2s;
+    }
+
+    .organ-card span {
+      font-weight: 500;
+      font-size: 1.15rem;
+      display: block;
+      letter-spacing: 0.3px;
+      color: #d0eaff;
+    }
+
+    .organ-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #7a9cff;
+      box-shadow: 0 12px 40px #1f4bff33, 0 0 30px #4f7aff22;
+      background: rgba(25, 45, 80, 0.6);
+    }
+
+    .organ-card:hover i {
+      color: #b3d9ff;
+      filter: drop-shadow(0 0 30px #4d8aff);
+    }
+
+    /* scroll down */
+    .scroll-hint {
+      text-align: center;
+      margin: 2.5rem 0 0.5rem;
+      color: #6889bb;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      animation: floatDown 2.5s infinite ease-in-out;
+    }
+
+    .scroll-hint i {
+      display: block;
+      font-size: 1.8rem;
+      margin-top: 4px;
+      color: #6d9eff;
+    }
+
+    @keyframes floatDown {
+      0% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(8px); }
+      100% { opacity: 0.4; transform: translateY(0); }
+    }
+
+    /* ---------- DETAIL PANEL (organ page) ---------- */
+    #detailPanel {
+      margin-top: 3rem;
+      display: none;
+      animation: fadeSlide 0.4s ease;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2.2rem;
+      padding: 2rem 1.8rem;
+    }
+
+    .detail-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .detail-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .detail-block {
+      background: rgba(8, 18, 40, 0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 2rem;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .detail-block h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 500;
+      color: #b0d5ff;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #3f6b9933;
+      padding-bottom: 0.5rem;
+    }
+
+    .detail-block h3 i {
+      color: #6f9eff;
+      font-size: 1.3rem;
+    }
+
+    .detail-block p, .detail-block li {
+      color: #d0e5ff;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .detail-block ul {
+      list-style: none;
+      padding-left: 0.2rem;
+    }
+
+    .detail-block ul li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #2f4a7733;
+    }
+
+    .detail-block ul li:last-child {
+      border: none;
+    }
+
+    .badge-fact {
+      display: inline-block;
+      background: #1f3b77;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #b3d9ff;
+      border: 1px solid #4f7aff44;
+    }
+
+    /* 3D model placeholder - আলাদা করা হলো */
+    .model-3d-placeholder {
+      background: #0c1a30;
+      border-radius: 2rem;
+      padding: 2rem 1rem;
+      text-align: center;
+      border: 1px dashed #6f9eff66;
+      box-shadow: 0 0 40px #1f4bff22;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .model-3d-placeholder i {
+      font-size: 4rem;
+      color: #5f8eff;
+      filter: drop-shadow(0 0 25px #3f7aff);
+    }
+
+    .model-3d-placeholder span {
+      color: #95baff;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid #3f7aff55;
+      color: #bbd9ff;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .back-btn:hover {
+      background: #1f3b77;
+      border-color: #8cb3ff;
+    }
+
+    /* search */
+    .live-search {
+      display: flex;
+      justify-content: center;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .live-search input {
+      width: 100%;
+      max-width: 480px;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      background: rgba(8, 20, 48, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3f7aff44;
+      color: #e0f0ff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .live-search input::placeholder {
+      color: #6a8fc0;
+    }
+
+    .live-search input:focus {
+      border-color: #7aa5ff;
+      box-shadow: 0 0 30px #2f6aff33;
+      background: rgba(12, 28, 58, 0.7);
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+        padding: 1.2rem;
+      }
+      .organ-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+      .lang-bar {
+        justify-content: center;
+      }
+      .hero h1 {
+        font-size: 3.2rem;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .btn-primary, .btn-outline {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* utility */
+    .mt-1 { margin-top: 0.6rem; }
+    .mb-1 { margin-bottom: 0.6rem; }
+    .flex { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+<div class="container" id="app">
+
+  <!-- language toggle -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="langBn"><i class="fas fa-language"></i> বাংলা</button>
+    <button class="lang-btn" id="langEn"><i class="fas fa-globe"></i> English</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero glass-card" style="border-radius: 3rem; padding: 2.5rem 1.5rem;">
+    <h1>🧠 AnatomyVerse</h1>
+    <p id="heroSub">Explore the Human Body in 3D</p>
+    <div class="hero-actions">
+      <button class="btn-primary" id="startLearningBtn"><i class="fas fa-play-circle"></i> <span id="startLabel">Start Learning</span></button>
+      <button class="btn-outline" id="exploreOrgansBtn"><i class="fas fa-heartbeat"></i> <span id="exploreLabel">Explore Organs</span></button>
+    </div>
+  </section>
+
+  <!-- live search -->
+  <div class="live-search">
+    <input type="text" id="searchInput" placeholder="🔍 Search organs...  (যেমন: Heart)">
+  </div>
+
+  <!-- organ grid -->
+  <div class="organ-grid" id="organGrid"></div>
+
+  <!-- scroll hint -->
+  <div class="scroll-hint">
+    <span id="scrollText">✨ Scroll Down</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+
+  <!-- DETAIL PANEL (organ page) -->
+  <div id="detailPanel" class="glass-card" style="border-radius: 2.5rem; overflow: hidden;">
+    <div style="padding: 1.2rem 1.8rem 0;">
+      <button class="back-btn" id="closeDetail"><i class="fas fa-arrow-left"></i> <span id="backLabel">Back to organs</span></button>
+    </div>
+    <div class="detail-grid" id="detailContent">
+      <!-- dynamic content rendered by js -->
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    // ---------- DATA ----------
+    const organsData = [
+      { id: 'heart', nameBn: '❤️ Heart', nameEn: '❤️ Heart', icon: 'fas fa-heart', 
+        function: 'পাম্প করে রক্ত সারা শরীরে।', functionEn: 'Pumps blood throughout the body.',
+        location: 'বুকের মাঝখানে, ফুসফুসের মাঝে।', locationEn: 'Middle of chest, between lungs.',
+        diseases: 'হার্ট অ্যাটাক, করোনারি আর্টারি ডিজিজ, হার্ট ফেইলিউর।', diseasesEn: 'Heart attack, CAD, heart failure.',
+        quiz: 'প্রাপ্তবয়স্ক মানুষের হৃদয় প্রতিদিন প্রায় কতবার স্পন্দিত হয়?', quizEn: 'How many times does an adult heart beat per day?',
+        facts: 'প্রতিদিন ~১,১৫,০০০ বার স্পন্দিত হয়।', factsEn: 'Beats ~115,000 times/day.' },
+      { id: 'brain', nameBn: '🧠 Brain', nameEn: '🧠 Brain', icon: 'fas fa-brain',
+        function: 'শরীরের নিয়ন্ত্রণ কেন্দ্র।', functionEn: 'Control center of the body.',
+        location: 'মাথার খুলির ভিতরে।', locationEn: 'Inside the skull.',
+        diseases: 'মাইগ্রেন, স্ট্রোক, আলঝেইমার।', diseasesEn: 'Migraine, stroke, Alzheimer\'s.',
+        quiz: 'মস্তিষ্কের ওজন প্রায় কত?', quizEn: 'Approx. weight of human brain?',
+        facts: '~১.৩-১.৪ কেজি, ৮৬ বিলিয়ন নিউরন।', factsEn: '~1.3-1.4 kg, 86B neurons.' },
+      { id: 'lungs', nameBn: '🫁 Lungs', nameEn: '🫁 Lungs', icon: 'fas fa-lungs',
+        function: 'অক্সিজেন গ্রহণ ও CO₂ বের করা।', functionEn: 'Oxygen intake & CO₂ removal.',
+        location: 'বুকের গহ্বর, হৃদয়ের দুই পাশে।', locationEn: 'Chest cavity, either side of heart.',
+        diseases: 'অ্যাজমা, নিউমোনিয়া, ফুসফুসের ক্যান্সার।', diseasesEn: 'Asthma, pneumonia, lung cancer.',
+        quiz: 'একজন প্রাপ্তবয়স্ক প্রতিদিন কতবার শ্বাস নেয়?', quizEn: 'How many breaths per day?',
+        facts: 'প্রতিদিন ~২০,০০০ বার শ্বাস।', factsEn: '~20,000 breaths/day.' },
+      { id: 'kidney', nameBn: '🫘 Kidney', nameEn: '🫘 Kidney', icon: 'fas fa-filter',
+        function: 'রক্ত পরিশোধন ও পানি ভারসাম্য।', functionEn: 'Blood filtration & water balance.',
+        location: 'পিঠের দুই পাশে, কোমরের কাছে।', locationEn: 'Either side of spine, lower back.',
+        diseases: 'কিডনি ইনফেকশন, স্টোন, ক্রনিক কিডনি ডিজিজ।', diseasesEn: 'Infection, stones, CKD.',
+        quiz: 'কিডনি প্রতি মিনিটে কতটুকু রক্ত ফিল্টার করে?', quizEn: 'How much blood does kidney filter per min?',
+        facts: 'প্রতি মিনিটে ~১.২ লিটার রক্ত ফিল্টার।', factsEn: '~1.2L blood filtered/min.' },
+      { id: 'liver', nameBn: '🫀 Liver', nameEn: '🫀 Liver', icon: 'fas fa-hand-holding-heart',
+        function: 'বিপাক, ডিটক্স, পিত্ত উৎপাদন।', functionEn: 'Metabolism, detox, bile production.',
+        location: 'পেটের ডান উপরের অংশে।', locationEn: 'Upper right abdomen.',
+        diseases: 'হেপাটাইটিস, ফ্যাটি লিভার, সিরোসিস।', diseasesEn: 'Hepatitis, fatty liver, cirrhosis.',
+        quiz: 'লিভারের ওজন কত?', quizEn: 'Weight of liver?',
+        facts: '~১.৪ কেজি, ৫০০+ কার্য সম্পাদন করে।', factsEn: '~1.4kg, 500+ functions.' },
+      { id: 'skeleton', nameBn: '🦴 Skeleton', nameEn: '🦴 Skeleton', icon: 'fas fa-bone',
+        function: 'শরীরের কাঠামো, অঙ্গ সুরক্ষা।', functionEn: 'Body structure, organ protection.',
+        location: 'সারা শরীর জুড়ে।', locationEn: 'Throughout the body.',
+        diseases: 'অস্টিওপোরোসিস, আর্থ্রাইটিস, ফ্র্যাকচার।', diseasesEn: 'Osteoporosis, arthritis, fractures.',
+        quiz: 'মানবদেহে কতটি হাড় আছে?', quizEn: 'How many bones in human body?',
+        facts: 'শিশুদের ~২৭০, প্রাপ্তবয়স্কদের ~২০৬টি।', factsEn: 'Babies ~270, adults ~206.' }
+    ];
+
+    // extra organs for rich experience (total 8)
+    const extraOrgans = [
+      { id: 'stomach', nameBn: '🫃 Stomach', nameEn: '🫃 Stomach', icon: 'fas fa-utensils',
+        function: 'খাবার হজম ও সংরক্ষণ।', functionEn: 'Digestion & food storage.',
+        location: 'পেটের বাম উপরের অংশ।', locationEn: 'Left upper abdomen.',
+        diseases: 'গ্যাস্ট্রাইটিস, আলসার, ক্যান্সার।', diseasesEn: 'Gastritis, ulcer, cancer.',
+        quiz: 'পাকস্থলীর রসের pH কত?', quizEn: 'pH of stomach acid?',
+        facts: 'pH ~১.৫-৩.৫, খুব অম্লীয়।', factsEn: 'pH ~1.5-3.5, highly acidic.' },
+      { id: 'intestine', nameBn: '🫄 Intestine', nameEn: '🫄 Intestine', icon: 'fas fa-dna',
+        function: 'পুষ্টি শোষণ ও বর্জ্য অপসারণ।', functionEn: 'Nutrient absorption & waste removal.',
+        location: 'পেটের মাঝামাঝি থেকে নিচ পর্যন্ত।', locationEn: 'Mid to lower abdomen.',
+        diseases: 'ক্রোনস, IBS, কোলাইটিস।', diseasesEn: 'Crohn\'s, IBS, colitis.',
+        quiz: 'ক্ষুদ্রান্ত্রের দৈর্ঘ্য কত?', quizEn: 'Length of small intestine?',
+        facts: 'প্রায় ৬ মিটার লম্বা।', factsEn: '~6 meters long.' }
+    ];
+
+    const allOrgans = [...organsData, ...extraOrgans];
+    let currentLang = 'bn'; // 'bn' or 'en'
+    let currentOrganId = null;
+
+    // DOM refs
+    const grid = document.getElementById('organGrid');
+    const searchInput = document.getElementById('searchInput');
+    const detailPanel = document.getElementById('detailPanel');
+    const detailContent = document.getElementById('detailContent');
+    const closeDetailBtn = document.getElementById('closeDetail');
+    const langBn = document.getElementById('langBn');
+    const langEn = document.getElementById('langEn');
+
+    // hero text elements
+    const heroSub = document.getElementById('heroSub');
+    const startLabel = document.getElementById('startLabel');
+    const exploreLabel = document.getElementById('exploreLabel');
+    const scrollText = document.getElementById('scrollText');
+    const backLabel = document.getElementById('backLabel');
+
+    // ----- RENDER GRID -----
+    function renderOrganGrid(filter = '') {
+      const q = filter.toLowerCase().trim();
+      let filtered = allOrgans;
+      if (q) {
+        filtered = allOrgans.filter(o => {
+          const name = currentLang === 'bn' ? o.nameBn : o.nameEn;
+          return name.toLowerCase().includes(q);
+        });
+      }
+      grid.innerHTML = '';
+      filtered.forEach(org => {
+        const card = document.createElement('div');
+        card.className = 'organ-card';
+        const displayName = currentLang === 'bn' ? org.nameBn : org.nameEn;
+        card.innerHTML = `<i class="${org.icon}"></i><span>${displayName}</span>`;
+        card.dataset.id = org.id;
+        card.addEventListener('click', () => openDetail(org.id));
+        grid.appendChild(card);
+      });
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#7799cc;">${currentLang === 'bn' ? 'কোন অঙ্গ পাওয়া যায়নি' : 'No organs found'}</div>`;
+      }
+    }
+
+    // ----- OPEN DETAIL -----
+    function openDetail(id) {
+      const org = allOrgans.find(o => o.id === id);
+      if (!org) return;
+      currentOrganId = id;
+      const lang = currentLang;
+      const isBn = lang === 'bn';
+
+      const name = isBn ? org.nameBn : org.nameEn;
+      const func = isBn ? org.function : org.functionEn;
+      const loc = isBn ? org.location : org.locationEn;
+      const dis = isBn ? org.diseases : org.diseasesEn;
+      const quiz = isBn ? org.quiz : org.quizEn;
+      const facts = isBn ? org.facts : org.factsEn;
+
+      detailContent.innerHTML = `
+        <div class="detail-left">
+          <div class="detail-block">
+            <h3><i class="fas fa-cube"></i> 3D Model</h3>
+            <div class="model-3d-placeholder">
+              <i class="${org.icon}" style="font-size:5rem;"></i>
+              <span>${isBn ? '🔮 ৩ডি মডেল (ইন্টারেক্টিভ)' : '🔮 3D Model (interactive)'}</span>
+              <span styl
+
+
+
+
+
+              ```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>AnatomyVerse · Cyber Medical</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #0b0d1a;
+      color: #e0f0ff;
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+      background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.02) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(150, 0, 255, 0.03) 0%, transparent 50%);
+    }
+
+    /* glassmorphism + glow */
+    .glass-card {
+      background: rgba(18, 28, 46, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.05) inset;
+      border-radius: 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: #7a5cff;
+      box-shadow: 0 8px 40px rgba(90, 0, 255, 0.3), 0 0 20px rgba(0, 200, 255, 0.2);
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header / language toggle */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      color: #b0daff;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 20, 40, 0.3);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .lang-btn.active {
+      background: #1f3a6b;
+      border-color: #7fc9ff;
+      color: white;
+      box-shadow: 0 0 15px #1f9aff55;
+    }
+
+    .lang-btn i {
+      margin-right: 6px;
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 12vw, 5.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #b3f0ff, #a77cff, #d28aff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px #3f6bff55, 0 0 80px #a44bff33;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      color: #b7d6ff;
+      background: rgba(0, 20, 50, 0.3);
+      backdrop-filter: blur(4px);
+      display: inline-block;
+      padding: 0.4rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #3f7bff33;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #1f5aff, #883cff);
+      border: none;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 0 30px #3c6eff77, 0 0 10px #a06eff55;
+      transition: 0.25s;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary i {
+      margin-right: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02) translateY(-3px);
+      box-shadow: 0 0 50px #5f7eff, 0 0 20px #b47aff;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #6b9aff;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #cbe3ff;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 10, 30, 0.3);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-outline i {
+      margin-right: 8px;
+    }
+
+    .btn-outline:hover {
+      background: #1f3b77;
+      border-color: #aac9ff;
+      box-shadow: 0 0 30px #3366ff44;
+    }
+
+    /* organ grid */
+    .organ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.8rem;
+      margin: 3rem 0 2rem;
+    }
+
+    .organ-card {
+      background: rgba(12, 22, 44, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      border-radius: 2.5rem;
+      padding: 1.8rem 0.8rem;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      color: #e3f0ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .organ-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(0, 200, 255, 0.03), transparent 60%);
+      pointer-events: none;
+    }
+
+    .organ-card i {
+      font-size: 3.6rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      filter: drop-shadow(0 0 15px #2f7fff55);
+      color: #a8d4ff;
+      transition: 0.2s;
+    }
+
+    .organ-card span {
+      font-weight: 500;
+      font-size: 1.15rem;
+      display: block;
+      letter-spacing: 0.3px;
+      color: #d0eaff;
+    }
+
+    .organ-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #7a9cff;
+      box-shadow: 0 12px 40px #1f4bff33, 0 0 30px #4f7aff22;
+      background: rgba(25, 45, 80, 0.6);
+    }
+
+    .organ-card:hover i {
+      color: #b3d9ff;
+      filter: drop-shadow(0 0 30px #4d8aff);
+    }
+
+    /* scroll down */
+    .scroll-hint {
+      text-align: center;
+      margin: 2.5rem 0 0.5rem;
+      color: #6889bb;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      animation: floatDown 2.5s infinite ease-in-out;
+    }
+
+    .scroll-hint i {
+      display: block;
+      font-size: 1.8rem;
+      margin-top: 4px;
+      color: #6d9eff;
+    }
+
+    @keyframes floatDown {
+      0% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(8px); }
+      100% { opacity: 0.4; transform: translateY(0); }
+    }
+
+    /* ---------- DETAIL PANEL (organ page) ---------- */
+    #detailPanel {
+      margin-top: 3rem;
+      display: none;
+      animation: fadeSlide 0.4s ease;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2.2rem;
+      padding: 2rem 1.8rem;
+    }
+
+    .detail-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .detail-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .detail-block {
+      background: rgba(8, 18, 40, 0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 2rem;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .detail-block h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 500;
+      color: #b0d5ff;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #3f6b9933;
+      padding-bottom: 0.5rem;
+    }
+
+    .detail-block h3 i {
+      color: #6f9eff;
+      font-size: 1.3rem;
+    }
+
+    .detail-block p, .detail-block li {
+      color: #d0e5ff;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .detail-block ul {
+      list-style: none;
+      padding-left: 0.2rem;
+    }
+
+    .detail-block ul li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #2f4a7733;
+    }
+
+    .detail-block ul li:last-child {
+      border: none;
+    }
+
+    .badge-fact {
+      display: inline-block;
+      background: #1f3b77;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #b3d9ff;
+      border: 1px solid #4f7aff44;
+    }
+
+    /* 3D model placeholder - আলাদা করা হলো */
+    .model-3d-placeholder {
+      background: #0c1a30;
+      border-radius: 2rem;
+      padding: 2rem 1rem;
+      text-align: center;
+      border: 1px dashed #6f9eff66;
+      box-shadow: 0 0 40px #1f4bff22;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .model-3d-placeholder i {
+      font-size: 4rem;
+      color: #5f8eff;
+      filter: drop-shadow(0 0 25px #3f7aff);
+    }
+
+    .model-3d-placeholder span {
+      color: #95baff;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid #3f7aff55;
+      color: #bbd9ff;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .back-btn:hover {
+      background: #1f3b77;
+      border-color: #8cb3ff;
+    }
+
+    /* search */
+    .live-search {
+      display: flex;
+      justify-content: center;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .live-search input {
+      width: 100%;
+      max-width: 480px;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      background: rgba(8, 20, 48, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3f7aff44;
+      color: #e0f0ff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .live-search input::placeholder {
+      color: #6a8fc0;
+    }
+
+    .live-search input:focus {
+      border-color: #7aa5ff;
+      box-shadow: 0 0 30px #2f6aff33;
+      background: rgba(12, 28, 58, 0.7);
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+        padding: 1.2rem;
+      }
+      .organ-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+      .lang-bar {
+        justify-content: center;
+      }
+      .hero h1 {
+        font-size: 3.2rem;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .btn-primary, .btn-outline {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* utility */
+    .mt-1 { margin-top: 0.6rem; }
+    .mb-1 { margin-bottom: 0.6rem; }
+    .flex { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+<div class="container" id="app">
+
+  <!-- language toggle -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="langBn"><i class="fas fa-language"></i> বাংলা</button>
+    <button class="lang-btn" id="langEn"><i class="fas fa-globe"></i> English</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero glass-card" style="border-radius: 3rem; padding: 2.5rem 1.5rem;">
+    <h1>🧠 AnatomyVerse</h1>
+    <p id="heroSub">Explore the Human Body in 3D</p>
+    <div class="hero-actions">
+      <button class="btn-primary" id="startLearningBtn"><i class="fas fa-play-circle"></i> <span id="startLabel">Start Learning</span></button>
+      <button class="btn-outline" id="exploreOrgansBtn"><i class="fas fa-heartbeat"></i> <span id="exploreLabel">Explore Organs</span></button>
+    </div>
+  </section>
+
+  <!-- live search -->
+  <div class="live-search">
+    <input type="text" id="searchInput" placeholder="🔍 Search organs...  (যেমন: Heart)">
+  </div>
+
+  <!-- organ grid -->
+  <div class="organ-grid" id="organGrid"></div>
+
+  <!-- scroll hint -->
+  <div class="scroll-hint">
+    <span id="scrollText">✨ Scroll Down</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+
+  <!-- DETAIL PANEL (organ page) -->
+  <div id="detailPanel" class="glass-card" style="border-radius: 2.5rem; overflow: hidden;">
+    <div style="padding: 1.2rem 1.8rem 0;">
+      <button class="back-btn" id="closeDetail"><i class="fas fa-arrow-left"></i> <span id="backLabel">Back to organs</span></button>
+    </div>
+    <div class="detail-grid" id="detailContent">
+      <!-- dynamic content rendered by js -->
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    // ---------- DATA ----------
+    const organsData = [
+      { id: 'heart', nameBn: '❤️ Heart', nameEn: '❤️ Heart', icon: 'fas fa-heart', 
+        function: 'পাম্প করে রক্ত সারা শরীরে।', functionEn: 'Pumps blood throughout the body.',
+        location: 'বুকের মাঝখানে, ফুসফুসের মাঝে।', locationEn: 'Middle of chest, between lungs.',
+        diseases: 'হার্ট অ্যাটাক, করোনারি আর্টারি ডিজিজ, হার্ট ফেইলিউর।', diseasesEn: 'Heart attack, CAD, heart failure.',
+        quiz: 'প্রাপ্তবয়স্ক মানুষের হৃদয় প্রতিদিন প্রায় কতবার স্পন্দিত হয়?', quizEn: 'How many times does an adult heart beat per day?',
+        facts: 'প্রতিদিন ~১,১৫,০০০ বার স্পন্দিত হয়।', factsEn: 'Beats ~115,000 times/day.' },
+      { id: 'brain', nameBn: '🧠 Brain', nameEn: '🧠 Brain', icon: 'fas fa-brain',
+        function: 'শরীরের নিয়ন্ত্রণ কেন্দ্র।', functionEn: 'Control center of the body.',
+        location: 'মাথার খুলির ভিতরে।', locationEn: 'Inside the skull.',
+        diseases: 'মাইগ্রেন, স্ট্রোক, আলঝেইমার।', diseasesEn: 'Migraine, stroke, Alzheimer\'s.',
+        quiz: 'মস্তিষ্কের ওজন প্রায় কত?', quizEn: 'Approx. weight of human brain?',
+        facts: '~১.৩-১.৪ কেজি, ৮৬ বিলিয়ন নিউরন।', factsEn: '~1.3-1.4 kg, 86B neurons.' },
+      { id: 'lungs', nameBn: '🫁 Lungs', nameEn: '🫁 Lungs', icon: 'fas fa-lungs',
+        function: 'অক্সিজেন গ্রহণ ও CO₂ বের করা।', functionEn: 'Oxygen intake & CO₂ removal.',
+        location: 'বুকের গহ্বর, হৃদয়ের দুই পাশে।', locationEn: 'Chest cavity, either side of heart.',
+        diseases: 'অ্যাজমা, নিউমোনিয়া, ফুসফুসের ক্যান্সার।', diseasesEn: 'Asthma, pneumonia, lung cancer.',
+        quiz: 'একজন প্রাপ্তবয়স্ক প্রতিদিন কতবার শ্বাস নেয়?', quizEn: 'How many breaths per day?',
+        facts: 'প্রতিদিন ~২০,০০০ বার শ্বাস।', factsEn: '~20,000 breaths/day.' },
+      { id: 'kidney', nameBn: '🫘 Kidney', nameEn: '🫘 Kidney', icon: 'fas fa-filter',
+        function: 'রক্ত পরিশোধন ও পানি ভারসাম্য।', functionEn: 'Blood filtration & water balance.',
+        location: 'পিঠের দুই পাশে, কোমরের কাছে।', locationEn: 'Either side of spine, lower back.',
+        diseases: 'কিডনি ইনফেকশন, স্টোন, ক্রনিক কিডনি ডিজিজ।', diseasesEn: 'Infection, stones, CKD.',
+        quiz: 'কিডনি প্রতি মিনিটে কতটুকু রক্ত ফিল্টার করে?', quizEn: 'How much blood does kidney filter per min?',
+        facts: 'প্রতি মিনিটে ~১.২ লিটার রক্ত ফিল্টার।', factsEn: '~1.2L blood filtered/min.' },
+      { id: 'liver', nameBn: '🫀 Liver', nameEn: '🫀 Liver', icon: 'fas fa-hand-holding-heart',
+        function: 'বিপাক, ডিটক্স, পিত্ত উৎপাদন।', functionEn: 'Metabolism, detox, bile production.',
+        location: 'পেটের ডান উপরের অংশে।', locationEn: 'Upper right abdomen.',
+        diseases: 'হেপাটাইটিস, ফ্যাটি লিভার, সিরোসিস।', diseasesEn: 'Hepatitis, fatty liver, cirrhosis.',
+        quiz: 'লিভারের ওজন কত?', quizEn: 'Weight of liver?',
+        facts: '~১.৪ কেজি, ৫০০+ কার্য সম্পাদন করে।', factsEn: '~1.4kg, 500+ functions.' },
+      { id: 'skeleton', nameBn: '🦴 Skeleton', nameEn: '🦴 Skeleton', icon: 'fas fa-bone',
+        function: 'শরীরের কাঠামো, অঙ্গ সুরক্ষা।', functionEn: 'Body structure, organ protection.',
+        location: 'সারা শরীর জুড়ে।', locationEn: 'Throughout the body.',
+        diseases: 'অস্টিওপোরোসিস, আর্থ্রাইটিস, ফ্র্যাকচার।', diseasesEn: 'Osteoporosis, arthritis, fractures.',
+        quiz: 'মানবদেহে কতটি হাড় আছে?', quizEn: 'How many bones in human body?',
+        facts: 'শিশুদের ~২৭০, প্রাপ্তবয়স্কদের ~২০৬টি।', factsEn: 'Babies ~270, adults ~206.' }
+    ];
+
+    // extra organs for rich experience (total 8)
+    const extraOrgans = [
+      { id: 'stomach', nameBn: '🫃 Stomach', nameEn: '🫃 Stomach', icon: 'fas fa-utensils',
+        function: 'খাবার হজম ও সংরক্ষণ।', functionEn: 'Digestion & food storage.',
+        location: 'পেটের বাম উপরের অংশ।', locationEn: 'Left upper abdomen.',
+        diseases: 'গ্যাস্ট্রাইটিস, আলসার, ক্যান্সার।', diseasesEn: 'Gastritis, ulcer, cancer.',
+        quiz: 'পাকস্থলীর রসের pH কত?', quizEn: 'pH of stomach acid?',
+        facts: 'pH ~১.৫-৩.৫, খুব অম্লীয়।', factsEn: 'pH ~1.5-3.5, highly acidic.' },
+      { id: 'intestine', nameBn: '🫄 Intestine', nameEn: '🫄 Intestine', icon: 'fas fa-dna',
+        function: 'পুষ্টি শোষণ ও বর্জ্য অপসারণ।', functionEn: 'Nutrient absorption & waste removal.',
+        location: 'পেটের মাঝামাঝি থেকে নিচ পর্যন্ত।', locationEn: 'Mid to lower abdomen.',
+        diseases: 'ক্রোনস, IBS, কোলাইটিস।', diseasesEn: 'Crohn\'s, IBS, colitis.',
+        quiz: 'ক্ষুদ্রান্ত্রের দৈর্ঘ্য কত?', quizEn: 'Length of small intestine?',
+        facts: 'প্রায় ৬ মিটার লম্বা।', factsEn: '~6 meters long.' }
+    ];
+
+    const allOrgans = [...organsData, ...extraOrgans];
+    let currentLang = 'bn'; // 'bn' or 'en'
+    let currentOrganId = null;
+
+    // DOM refs
+    const grid = document.getElementById('organGrid');
+    const searchInput = document.getElementById('searchInput');
+    const detailPanel = document.getElementById('detailPanel');
+    const detailContent = document.getElementById('detailContent');
+    const closeDetailBtn = document.getElementById('closeDetail');
+    const langBn = document.getElementById('langBn');
+    const langEn = document.getElementById('langEn');
+
+    // hero text elements
+    const heroSub = document.getElementById('heroSub');
+    const startLabel = document.getElementById('startLabel');
+    const exploreLabel = document.getElementById('exploreLabel');
+    const scrollText = document.getElementById('scrollText');
+    const backLabel = document.getElementById('backLabel');
+
+    // ----- RENDER GRID -----
+    function renderOrganGrid(filter = '') {
+      const q = filter.toLowerCase().trim();
+      let filtered = allOrgans;
+      if (q) {
+        filtered = allOrgans.filter(o => {
+          const name = currentLang === 'bn' ? o.nameBn : o.nameEn;
+          return name.toLowerCase().includes(q);
+        });
+      }
+      grid.innerHTML = '';
+      filtered.forEach(org => {
+        const card = document.createElement('div');
+        card.className = 'organ-card';
+        const displayName = currentLang === 'bn' ? org.nameBn : org.nameEn;
+        card.innerHTML = `<i class="${org.icon}"></i><span>${displayName}</span>`;
+        card.dataset.id = org.id;
+        card.addEventListener('click', () => openDetail(org.id));
+        grid.appendChild(card);
+      });
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#7799cc;">${currentLang === 'bn' ? 'কোন অঙ্গ পাওয়া যায়নি' : 'No organs found'}</div>`;
+      }
+    }
+
+    // ----- OPEN DETAIL -----
+    function openDetail(id) {
+      const org = allOrgans.find(o => o.id === id);
+      if (!org) return;
+      currentOrganId = id;
+      const lang = currentLang;
+      const isBn = lang === 'bn';
+
+      const name = isBn ? org.nameBn : org.nameEn;
+      const func = isBn ? org.function : org.functionEn;
+      const loc = isBn ? org.location : org.locationEn;
+      const dis = isBn ? org.diseases : org.diseasesEn;
+      const quiz = isBn ? org.quiz : org.quizEn;
+      const facts = isBn ? org.facts : org.factsEn;
+
+      detailContent.innerHTML = `
+        <div class="detail-left">
+          <div class="detail-block">
+            <h3><i class="fas fa-cube"></i> 3D Model</h3>
+            <div class="model-3d-placeholder">
+              <i class="${org.icon}" style="font-size:5rem;"></i>
+              <span>${isBn ? '🔮 ৩ডি মডেল (ইন্টারেক্টিভ)' : '🔮 3D Model (interactive)'}</span>
+              </body>
+              </html>
