@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnatomyVerse — Explore the Human Body in 3D</title>
-    <!-- Google Fonts & Icons -->
+    <title>AnatomyVerse — Futuristic 3D Human Anatomy</title>
+    <!-- Fonts & Model-Viewer -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-    
+
     <style>
         :root {
-            --bg-dark: #050716;
+            --bg-dark: #030511;
             --neon-blue: #00f0ff;
-            --neon-purple: #7000ff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(0, 240, 255, 0.2);
-            --text-color: #e2e8f0;
+            --neon-purple: #8a2be2;
+            --glass-bg: rgba(10, 15, 35, 0.55);
+            --glass-border: rgba(0, 240, 255, 0.25);
+            --text-color: #f1f5f9;
         }
 
         * {
@@ -23,6 +23,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Orbitron', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -30,21 +31,22 @@
             color: var(--text-color);
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 15% 15%, rgba(138, 43, 226, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.18) 0%, transparent 40%);
         }
 
-        /* Header & Navbar */
+        /* Navbar Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 5%;
-            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            background: rgba(3, 5, 17, 0.8);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .logo {
@@ -52,7 +54,8 @@
             font-size: 1.8rem;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 10px var(--neon-blue);
+            text-shadow: 0 0 12px var(--neon-blue);
+            letter-spacing: 1px;
         }
 
         .nav-controls {
@@ -64,52 +67,61 @@
         .search-box input {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 25px;
             color: #fff;
             outline: none;
             backdrop-filter: blur(5px);
+            transition: 0.3s;
         }
 
         .search-box input:focus {
-            box-shadow: 0 0 10px var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            border-color: var(--neon-blue);
         }
 
         .lang-btn {
             background: transparent;
             border: 1px solid var(--neon-purple);
             color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            box-shadow: 0 0 8px var(--neon-purple);
+            box-shadow: 0 0 10px var(--neon-purple);
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .lang-btn:hover {
+            background: var(--neon-purple);
         }
 
         /* Hero Section */
         .hero {
-            min-height: 70vh;
+            min-height: 65vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
+            padding: 20px;
         }
 
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 3.5rem;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            background: linear-gradient(45deg, var(--neon-blue), #ff007f, var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: #a0aec0;
+            color: #94a3b8;
             margin-bottom: 30px;
+            max-width: 600px;
         }
 
         .btn-group {
@@ -118,12 +130,13 @@
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 12px 32px;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
             text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -135,7 +148,7 @@
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 25px var(--neon-blue);
+            box-shadow: 0 0 30px var(--neon-blue);
         }
 
         .btn-secondary {
@@ -151,54 +164,56 @@
 
         /* Organ Grid Section */
         .organ-section {
-            padding: 50px 5%;
+            padding: 40px 5%;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 40px;
             color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px var(--neon-blue);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
 
         /* Glassmorphism Cards */
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
-            backdrop-filter: blur(12px);
-            transition: 0.4s;
+            backdrop-filter: blur(15px);
+            transition: 0.4s ease;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-10px);
             border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
         }
 
         .card-icon {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 15px;
             display: block;
+            filter: drop-shadow(0 0 10px var(--neon-blue));
         }
 
         .card h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 10px;
         }
 
-        /* Organ Detail View Modal/Section */
+        /* Organ Detail Modal */
         .detail-view {
             display: none;
             position: fixed;
@@ -206,8 +221,9 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: var(--bg-dark);
-            z-index: 200;
+            background: rgba(3, 5, 17, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
             overflow-y: auto;
             padding: 40px 5%;
         }
@@ -217,33 +233,48 @@
         }
 
         .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 2rem;
+            position: fixed;
+            top: 25px;
+            right: 35px;
+            font-size: 2.5rem;
             color: var(--neon-blue);
             cursor: pointer;
+            z-index: 2100;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ff007f;
+            transform: scale(1.2);
         }
 
         .detail-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 1fr;
             gap: 40px;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 40px auto;
         }
 
-        model-viewer {
+        .model-container {
             width: 100%;
-            height: 400px;
-            background: var(--glass-bg);
-            border-radius: 15px;
+            height: 520px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
             border: 1px solid var(--glass-border);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        model-viewer, iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .info-box {
             background: var(--glass-bg);
-            padding: 25px;
+            padding: 22px;
             border-radius: 15px;
             border: 1px solid var(--glass-border);
             margin-bottom: 20px;
@@ -251,132 +282,208 @@
 
         .info-box h3 {
             color: var(--neon-blue);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
+        /* Interactive Quiz Box */
+        .quiz-box {
+            background: rgba(138, 43, 226, 0.15);
+            border: 1px solid var(--neon-purple);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: var(--neon-purple);
+            color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.3rem; }
             .detail-container { grid-template-columns: 1fr; }
+            .model-container { height: 380px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Top Navigation -->
     <header>
         <div class="logo">🧠 AnatomyVerse</div>
         <div class="nav-controls">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="অঙ্গ খুঁজুন... / Search..." onkeyup="filterOrgans()">
+                <input type="text" id="searchInput" placeholder="Search Organ / খুঁজুন..." onkeyup="filterOrgans()">
             </div>
-            <button class="lang-btn" onclick="toggleLanguage()">🇧🇩 BN / 🇬🇧 EN</button>
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🇧🇩 BN</button>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1 id="heroTitle">Explore the Human Body in 3D</h1>
-        <p id="heroSubtitle">মানবদেহের রহস্য উন্মোচন করুন ফিউচারিস্টিক ৩ডি প্রযুক্তির মাধ্যমে</p>
+        <h1 id="heroTitle">Explore Human Body in 3D</h1>
+        <p id="heroSubtitle">সাইবার মেডিকেল প্রযুক্তির সাহায্যে মানবদেহের রহস্য ও ৩ডি অঙ্গ-প্রত্যঙ্গ আবিষ্কার করুন।</p>
         <div class="btn-group">
-            <a href="#organs" class="btn btn-primary">Start Learning</a>
-            <a href="#organs" class="btn btn-secondary">Explore Organs</a>
+            <a href="#organs" class="btn btn-primary" id="btnStart">Start Learning</a>
+            <a href="#organs" class="btn btn-secondary" id="btnExplore">Explore Organs</a>
         </div>
     </section>
 
     <!-- Organ Cards Section -->
     <section class="organ-section" id="organs">
-        <h2 class="section-title">অঙ্গসমূহ নির্বাচন করুন (Select Organ)</h2>
-        <div class="grid" id="organGrid">
-            <!-- Cards will be populated dynamically -->
-        </div>
+        <h2 class="section-title" id="secTitle">অঙ্গসমূহ নির্বাচন করুন (Select Organ)</h2>
+        <div class="grid" id="organGrid"></div>
     </section>
 
-    <!-- Detailed View Modal -->
+    <!-- Organ Detail Modal -->
     <div class="detail-view" id="detailView">
         <span class="close-btn" onclick="closeDetail()">&times;</span>
         <div class="detail-container">
-            <!-- 3D Model Viewer -->
-            <div>
-                <model-viewer id="organModel" src="" alt="3D Organ" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
-            </div>
+            <!-- Interactive 3D Model Display -->
+            <div class="model-container" id="modelHolder"></div>
             
             <!-- Details Info -->
             <div>
-                <h1 id="detailName" style="color: var(--neon-blue); margin-bottom: 20px;">Organ Name</h1>
+                <h1 id="detailName" style="color: var(--neon-blue); margin-bottom: 20px; font-family: 'Orbitron';">Organ Name</h1>
                 
                 <div class="info-box">
-                    <h3>⚙️ কাজ (Function)</h3>
+                    <h3>⚙️ <span class="lbl-func">কাজ (Function)</span></h3>
                     <p id="detailFunction">---</p>
                 </div>
                 
                 <div class="info-box">
-                    <h3>📍 অবস্থান (Location)</h3>
+                    <h3>📍 <span class="lbl-loc">অবস্থান (Location)</span></h3>
                     <p id="detailLocation">---</p>
                 </div>
 
                 <div class="info-box">
-                    <h3>🩺 সম্ভাব্য রোগ (Diseases)</h3>
+                    <h3>🩺 <span class="lbl-dis">সম্ভাব্য রোগ (Diseases)</span></h3>
                     <p id="detailDiseases">---</p>
                 </div>
 
                 <div class="info-box">
-                    <h3>💡 অজানা তথ্য (Interesting Facts)</h3>
+                    <h3>💡 <span class="lbl-fact">অজানা তথ্য (Facts)</span></h3>
                     <p id="detailFacts">---</p>
+                </div>
+
+                <!-- Interactive Quiz -->
+                <div class="quiz-box">
+                    <h3 style="color: #ff007f; margin-bottom: 10px;">❓ <span class="lbl-quiz">কুইজ (Quick Quiz)</span></h3>
+                    <p id="quizQuestion" style="margin-bottom: 10px; font-weight: 600;"></p>
+                    <div id="quizOptions"></div>
+                    <p id="quizResult" style="margin-top: 10px; font-weight: bold;"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Data Structure
+        let currentLang = 'BN'; // Default Language
+
+        // Database with 3D Models (Interactive Skeleton, Heart, Brain, Lungs, Kidney)
         const organsData = [
+            {
+                id: 'skeleton',
+                nameBn: '🦴 কঙ্কালতন্ত্র (Skeleton)',
+                nameEn: '🦴 Human Skeleton',
+                icon: '🦴',
+                type: 'sketchfab',
+                // Interactive 3D Skeleton Model Embed
+                embedUrl: 'https://sketchfab.com/models/bf3299863a8341ae91be983696f01a35/embed?autostart=1&ui_theme=dark',
+                funcBn: 'শরীরের মূল কাঠামো প্রদান করা, চালচলনে সাহায্য করা এবং অভ্যন্তরীণ অঙ্গগুলোকে সুরক্ষিত রাখা।',
+                funcEn: 'Provides structural framework, enables movement, and protects vital organs.',
+                locBn: 'সমগ্র মানবদেহ জুড়িয়া (মাথা থেকে পা পর্যন্ত)।',
+                locEn: 'Throughout the whole body (Head to Toe).',
+                disBn: 'অস্টিওপোরোসিস, হাড় ফ্র্যাকচার, আর্থ্রাইটিস।',
+                disEn: 'Osteoporosis, Bone Fractures, Arthritis.',
+                factBn: 'এক একজন পূর্ণবয়স্ক মানুষের শরীরে ২০৬ টি হাড় থাকে, কিন্তু জন্মের সময় থাকে প্রায় ৩০০টি!',
+                factEn: 'An adult human body has 206 bones, but born with around 300 bones!',
+                quizBn: 'মানবদেহের সবচেয়ে ছোট হাড় কোনটি?',
+                quizEn: 'Which is the smallest bone in the human body?',
+                optionsBn: ['ফিমার (Femur)', 'স্টেপিস (Stapes)', 'হিউমেরাস (Humerus)'],
+                optionsEn: ['Femur', 'Stapes', 'Humerus'],
+                correct: 1
+            },
             {
                 id: 'heart',
                 nameBn: '❤️ হৃদপিণ্ড (Heart)',
-                nameEn: '❤️ Heart',
+                nameEn: '❤️ Human Heart',
                 icon: '🫀',
-                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Demo 3D Model URL
-                function: 'সারা শরীরে রক্ত পাম্প করে অক্সিজেন ও পুষ্টি উপাদান পৌঁছানো।',
-                location: 'বুকের মাঝখানে সামান্য বাম দিকে।',
-                diseases: 'হার্ট অ্যাটাক, তারতম্যহীন রক্তচাপ, করোনোরি আর্টারি ডিজিজ।',
-                facts: 'মানব হৃদপিণ্ড প্রতিদিন প্রায় ১,০০,০০০ বার স্পন্দিত হয়।'
+                type: 'sketchfab',
+                embedUrl: 'https://sketchfab.com/models/11cb75470d0d4f268b8b0e00d9f48508/embed?autostart=1&ui_theme=dark',
+                funcBn: 'রক্ত সংবহন তন্ত্রের মাধ্যমে সারা শরীরে অক্সিজেন ও পুষ্টি উপাদান পাম্প করা।',
+                funcEn: 'Pumps blood throughout the body via circulatory system delivering oxygen and nutrients.',
+                locBn: 'বক্ষ গহ্বরের মাঝখানে, কিছুটা বাম দিকে হেলানো।',
+                locEn: 'In the middle of chest, slightly tilted to the left.',
+                disBn: 'করোনারি আর্টারি ডিজিজ, হার্ট অ্যাটাক, উচ্চ রক্তচাপ।',
+                disEn: 'Coronary Artery Disease, Heart Attack, Hypertension.',
+                factBn: 'মানব হৃদপিণ্ড প্রতিদিন গড়ে প্রায় ১,০০,০০০ বার স্পন্দিত হয়!',
+                factEn: 'The human heart beats approximately 100,000 times per day!',
+                quizBn: 'হৃদপিণ্ডের কোন অংশ সারা শরীরে বিশুদ্ধ রক্ত পাম্প করে?',
+                quizEn: 'Which heart chamber pumps oxygenated blood to the body?',
+                optionsBn: ['ডান অলিন্দ', 'বাম নিলয় (Left Ventricle)', 'ডান নিলয়'],
+                optionsEn: ['Right Atrium', 'Left Ventricle', 'Right Ventricle'],
+                correct: 1
             },
             {
                 id: 'brain',
                 nameBn: '🧠 মস্তিষ্ক (Brain)',
-                nameEn: '🧠 Brain',
+                nameEn: '🧠 Human Brain',
                 icon: '🧠',
-                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
-                function: 'দেহের সকল চিন্তাভাবনা, স্মৃতি ও অঙ্গপ্রত্যঙ্গ নিয়ন্ত্রণ করা।',
-                location: 'মাথার খুলির (Skull) ভেতরে।',
-                diseases: 'স্ট্রোক, আলঝেইমার, পারকিনসন্স।',
-                facts: 'মস্তিষ্ক মানবদেহের মোট শক্তির প্রায় ২০% খরচ করে।'
+                type: 'glb',
+                embedUrl: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/BrainStem/glTF-Binary/BrainStem.glb',
+                funcBn: 'চিন্তাভাবনা, অনুভূতি, স্মৃতি এবং শরীরের সমস্ত ঐচ্ছিক ও অনৈচ্ছিক কাজ নিয়ন্ত্রণ করা।',
+                funcEn: 'Controls thought, memory, emotion, touch, motor skills, and body processes.',
+                locBn: 'মাথার খুলি (Skull) এর সুরক্ষিত ভেতরের অংশে।',
+                locEn: 'Inside the skull (Cranium).',
+                disBn: 'স্ট্রোক, আলঝেইমার, পারকিনসন্স, ব্রেন টিউমার।',
+                disEn: 'Stroke, Alzheimer\'s, Parkinson\'s, Brain Tumor.',
+                factBn: 'মানব মস্তিষ্কদেহের মোট শক্তির প্রায় ২০% একাই ব্যবহার করে।',
+                factEn: 'The brain uses about 20% of the body\'s total energy.',
+                quizBn: 'মস্তিষ্কের কোন অংশ ভারসাম্য বজায় রাখতে সাহায্য করে?',
+                quizEn: 'Which part of the brain controls body balance?',
+                optionsBn: ['সেরিব্রাম', 'সেরিবেলাম (Cerebellum)', 'মেডুলা'],
+                optionsEn: ['Cerebrum', 'Cerebellum', 'Medulla'],
+                correct: 1
             },
             {
                 id: 'lungs',
                 nameBn: '🫁 ফুসফুস (Lungs)',
-                nameEn: '🫁 Lungs',
+                nameEn: '🫁 Human Lungs',
                 icon: '🫁',
-                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
-                function: 'বাতাস থেকে অক্সিজেন গ্রহণ এবং কার্বন ডাই অক্সাইড ত্যাগ করা।',
-                location: 'বক্ষ গহ্বরের দুই পাশে।',
-                diseases: 'অ্যাজমা, নিউমোনিয়া, সিওপিডি (COPD)।',
-                facts: 'ডান ফুসফুসটি বাম ফুসফুসের চেয়ে আকারে কিছুটা বড়।'
-            },
-            {
-                id: 'kidney',
-                nameBn: '🫘 কিডনি (Kidney)',
-                nameEn: '🫘 Kidney',
-                icon: '🫘',
-                modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
-                function: 'রক্ত ছেঁকে বর্জ্য পদার্থ প্রস্রাব হিসেবে বের করে দেওয়া।',
-                location: 'পেটের পেছনের অংশে মেরুদণ্ডের দু’পাশে।',
-                diseases: 'কিডনি পাথর, ক্রনিক কিডনি ডিজিজ।',
-                facts: 'প্রতিদিন কিডনি প্রায় ১৮০ লিটার রক্ত ফিল্টার করে।'
+                type: 'sketchfab',
+                embedUrl: 'https://sketchfab.com/models/30026e6ec35b4ee382cb7427f717dd37/embed?autostart=1&ui_theme=dark',
+                funcBn: 'শ্বাসপ্রশ্বাসের মাধ্যমে অক্সিজেন গ্রহণ ও ক্ষতিকারক কার্বন ডাই অক্সাইড বের করা।',
+                funcEn: 'Transfers oxygen into blood and removes carbon dioxide during respiration.',
+                locBn: 'বুকের ভেতরে হৃদপিণ্ডের উভয় পাশে।',
+                locEn: 'On either side of the chest cavity.',
+                disBn: 'অ্যাজমা, নিউমোনিয়া, সিওপিডি (COPD), ফুসফুসের ক্যান্সার।',
+                disEn: 'Asthma, Pneumonia, COPD, Lung Cancer.',
+                factBn: 'ডান ফুসফুসটি বাম ফুসফুসের চেয়ে কিছুটা বড়, কারণ বাম পাশে হৃদপিণ্ডের জায়গা দিতে হয়।',
+                factEn: 'Right lung is slightly larger than the left to accommodate the heart.',
+                quizBn: 'ফুসফুসে গ্যাস বিনিময়ের মূল একক কোনটি?',
+                quizEn: 'What is the main unit of gas exchange in lungs?',
+                optionsBn: ['নেফ্রন', 'অ্যালভিওলাই (Alveoli)', 'নিউরিয়া'],
+                optionsEn: ['Nephron', 'Alveoli', 'Neuron'],
+                correct: 1
             }
         ];
 
-        // Render Cards
+        // Render Organ Cards dynamically
         function renderCards(data) {
             const grid = document.getElementById('organGrid');
             grid.innerHTML = '';
@@ -386,13 +493,13 @@
                 card.onclick = () => openDetail(organ);
                 card.innerHTML = `
                     <span class="card-icon">${organ.icon}</span>
-                    <h3>${organ.nameBn}</h3>
+                    <h3>${currentLang === 'BN' ? organ.nameBn : organ.nameEn}</h3>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // Live Search
+        // Live Search Filter
         function filterOrgans() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = organsData.filter(organ => 
@@ -402,24 +509,27 @@
             renderCards(filtered);
         }
 
-        // Detail View Open/Close
+        // Open 3D Organ Detail View Modal
         function openDetail(organ) {
-            document.getElementById('detailName').innerText = organ.nameBn;
-            document.getElementById('detailFunction').innerText = organ.function;
-            document.getElementById('detailLocation').innerText = organ.location;
-            document.getElementById('detailDiseases').innerText = organ.diseases;
-            document.getElementById('detailFacts').innerText = organ.facts;
-            document.getElementById('organModel').setAttribute('src', organ.modelUrl);
+            document.getElementById('detailName').innerText = currentLang === 'BN' ? organ.nameBn : organ.nameEn;
+            document.getElementById('detailFunction').innerText = currentLang === 'BN' ? organ.funcBn : organ.funcEn;
+            document.getElementById('detailLocation').innerText = currentLang === 'BN' ? organ.locBn : organ.locEn;
+            document.getElementById('detailDiseases').innerText = currentLang === 'BN' ? organ.disBn : organ.disEn;
+            document.getElementById('detailFacts').innerText = currentLang === 'BN' ? organ.factBn : organ.factEn;
             
-            document.getElementById('detailView').classList.add('active');
-        }
+            // Set Quiz Content
+            document.getElementById('quizQuestion').innerText = currentLang === 'BN' ? organ.quizBn : organ.quizEn;
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            document.getElementById('quizResult').innerText = '';
 
-        function closeDetail() {
-            document.getElementById('detailView').classList.remove('active');
-        }
+            const options = currentLang === 'BN' ? organ.optionsBn : organ.optionsEn;
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'quiz-option';
+                btn.innerText = opt;
+                btn.onclick = () => checkQuiz(idx, organ.correct);
+                optionsContainer.appendChild(btn);
+            });
 
-        // Initial Load
-        renderCards(organsData);
-    </script>
-</body>
-</html>
+            // Handle 3D Model Rendering (Sketchfab iframe or GLB mo
