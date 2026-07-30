@@ -1,730 +1,620 @@
+This is a complete HTML document for a "AnatomyVerse 3D" website. It creates a dark, futuristic landing page with interactive 3D organ models, designed to showcase human anatomy in a stunning, modern format.
+
 ```html
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>AnatomyVerse · Cyber Medical</title>
-  <!-- Font & Icons -->
+  <title>AnatomyVerse 3D · Human Organs</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     }
 
     body {
-      background: #0b0d1a;
-      color: #e0f0ff;
-      min-height: 100vh;
-      padding: 1.5rem 1rem 3rem;
-      background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.02) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(150, 0, 255, 0.03) 0%, transparent 50%);
+      background-color: #07111F;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
-    /* glassmorphism + glow */
+    h1, h2, h3, .heading-font {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Glassmorphism & glow */
     .glass-card {
-      background: rgba(18, 28, 46, 0.55);
+      background: rgba(255, 255, 255, 0.04);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.05) inset;
-      border-radius: 2.5rem;
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 28px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 229, 255, 0.05);
       transition: all 0.3s ease;
     }
 
     .glass-card:hover {
-      border-color: #7a5cff;
-      box-shadow: 0 8px 40px rgba(90, 0, 255, 0.3), 0 0 20px rgba(0, 200, 255, 0.2);
+      border-color: rgba(0, 229, 255, 0.5);
+      box-shadow: 0 24px 48px -12px rgba(0, 229, 255, 0.15), 0 0 0 1px rgba(0, 229, 255, 0.2);
+      transform: translateY(-4px);
     }
 
-    /* ---------- LAYOUT ---------- */
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-    }
-
-    /* header / language toggle */
-    .lang-bar {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.8rem;
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
-      align-items: center;
-    }
-
-    .lang-btn {
-      background: transparent;
-      border: 1px solid rgba(0, 255, 255, 0.25);
-      color: #b0daff;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-weight: 500;
-      backdrop-filter: blur(4px);
-      background: rgba(0, 20, 40, 0.3);
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .lang-btn.active {
-      background: #1f3a6b;
-      border-color: #7fc9ff;
-      color: white;
-      box-shadow: 0 0 15px #1f9aff55;
-    }
-
-    .lang-btn i {
-      margin-right: 6px;
-    }
-
-    /* hero */
-    .hero {
-      text-align: center;
-      padding: 2.5rem 1rem 2rem;
-      margin-bottom: 2.5rem;
-      position: relative;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.8rem, 12vw, 5.5rem);
-      font-weight: 700;
-      background: linear-gradient(135deg, #b3f0ff, #a77cff, #d28aff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.02em;
-      text-shadow: 0 0 40px #3f6bff55, 0 0 80px #a44bff33;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero p {
-      font-size: clamp(1.1rem, 3vw, 1.7rem);
-      color: #b7d6ff;
-      background: rgba(0, 20, 50, 0.3);
-      backdrop-filter: blur(4px);
-      display: inline-block;
-      padding: 0.4rem 2rem;
-      border-radius: 60px;
-      border: 1px solid #3f7bff33;
-      margin-bottom: 2rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      margin-top: 0.5rem;
-    }
-
+    /* Buttons */
     .btn-primary {
-      background: linear-gradient(145deg, #1f5aff, #883cff);
+      background: linear-gradient(135deg, #00E5FF, #0EA5E9);
       border: none;
-      padding: 0.9rem 2.8rem;
+      padding: 14px 36px;
       border-radius: 60px;
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: white;
-      box-shadow: 0 0 30px #3c6eff77, 0 0 10px #a06eff55;
-      transition: 0.25s;
+      color: #07111F;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 8px 24px rgba(0, 229, 255, 0.3);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       cursor: pointer;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
     }
 
     .btn-primary i {
-      margin-right: 10px;
+      font-size: 1.2rem;
     }
 
     .btn-primary:hover {
-      transform: scale(1.02) translateY(-3px);
-      box-shadow: 0 0 50px #5f7eff, 0 0 20px #b47aff;
+      transform: scale(1.03);
+      box-shadow: 0 12px 32px rgba(0, 229, 255, 0.5);
+      background: linear-gradient(135deg, #22D3EE, #0EA5E9);
     }
 
     .btn-outline {
       background: transparent;
-      border: 1.5px solid #6b9aff;
-      padding: 0.9rem 2.8rem;
+      border: 2px solid #00E5FF;
+      color: #00E5FF;
+      padding: 12px 32px;
       border-radius: 60px;
       font-weight: 600;
-      font-size: 1.1rem;
-      color: #cbe3ff;
-      backdrop-filter: blur(4px);
-      background: rgba(0, 10, 30, 0.3);
       transition: 0.2s;
       cursor: pointer;
-    }
-
-    .btn-outline i {
-      margin-right: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
     }
 
     .btn-outline:hover {
-      background: #1f3b77;
-      border-color: #aac9ff;
-      box-shadow: 0 0 30px #3366ff44;
+      background: rgba(0, 229, 255, 0.08);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
     }
 
-    /* organ grid */
-    .organ-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1.8rem;
-      margin: 3rem 0 2rem;
-    }
-
-    .organ-card {
-      background: rgba(12, 22, 44, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 255, 255, 0.08);
-      border-radius: 2.5rem;
-      padding: 1.8rem 0.8rem;
-      text-align: center;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      color: #e3f0ff;
+    /* Hero */
+    .hero {
+      padding: 60px 0 80px;
       position: relative;
       overflow: hidden;
     }
 
-    .organ-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 40%, rgba(0, 200, 255, 0.03), transparent 60%);
-      pointer-events: none;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
     }
 
-    .organ-card i {
+    .hero-content h1 {
       font-size: 3.6rem;
-      margin-bottom: 0.5rem;
-      display: block;
-      filter: drop-shadow(0 0 15px #2f7fff55);
-      color: #a8d4ff;
-      transition: 0.2s;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ffffff, #a0f0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .organ-card span {
-      font-weight: 500;
-      font-size: 1.15rem;
-      display: block;
-      letter-spacing: 0.3px;
-      color: #d0eaff;
+    .hero-content p {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+
+    .hero-3d {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .model-placeholder {
+      width: 100%;
+      max-width: 460px;
+      aspect-ratio: 1/1;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.08), rgba(7, 17, 31, 0.8));
+      border-radius: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      box-shadow: 0 0 60px rgba(0, 229, 255, 0.08);
+      position: relative;
+    }
+
+    .model-placeholder i {
+      font-size: 8rem;
+      color: #00E5FF;
+      opacity: 0.7;
+      filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
+    }
+
+    .model-placeholder .badge-3d {
+      position: absolute;
+      bottom: 20px;
+      background: rgba(0, 229, 255, 0.12);
+      backdrop-filter: blur(4px);
+      padding: 8px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      font-size: 0.85rem;
+      color: #a0f0ff;
+      letter-spacing: 0.5px;
+    }
+
+    .rotating-glow {
+      animation: pulseGlow 4s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 30px rgba(0, 229, 255, 0.05); }
+      100% { box-shadow: 0 0 80px rgba(0, 229, 255, 0.2); }
+    }
+
+    /* Organ grid */
+    .section-title {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .section-sub {
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .organ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 24px;
+      margin: 48px 0 64px;
+    }
+
+    .organ-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 229, 255, 0.08);
+      border-radius: 24px;
+      padding: 20px 12px;
+      text-align: center;
+      transition: 0.25s ease;
+      cursor: default;
     }
 
     .organ-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: #7a9cff;
-      box-shadow: 0 12px 40px #1f4bff33, 0 0 30px #4f7aff22;
-      background: rgba(25, 45, 80, 0.6);
+      background: rgba(0, 229, 255, 0.06);
+      border-color: #00E5FF;
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.08);
     }
 
-    .organ-card:hover i {
-      color: #b3d9ff;
-      filter: drop-shadow(0 0 30px #4d8aff);
-    }
-
-    /* scroll down */
-    .scroll-hint {
-      text-align: center;
-      margin: 2.5rem 0 0.5rem;
-      color: #6889bb;
-      letter-spacing: 2px;
-      font-size: 0.9rem;
-      animation: floatDown 2.5s infinite ease-in-out;
-    }
-
-    .scroll-hint i {
+    .organ-card i {
+      font-size: 2.8rem;
+      color: #22D3EE;
+      margin-bottom: 10px;
       display: block;
-      font-size: 1.8rem;
-      margin-top: 4px;
-      color: #6d9eff;
     }
 
-    @keyframes floatDown {
-      0% { opacity: 0.4; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(8px); }
-      100% { opacity: 0.4; transform: translateY(0); }
-    }
-
-    /* ---------- DETAIL PANEL (organ page) ---------- */
-    #detailPanel {
-      margin-top: 3rem;
-      display: none;
-      animation: fadeSlide 0.4s ease;
-    }
-
-    @keyframes fadeSlide {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 2.2rem;
-      padding: 2rem 1.8rem;
-    }
-
-    .detail-left {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .detail-right {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .detail-block {
-      background: rgba(8, 18, 40, 0.5);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 2rem;
-      padding: 1.6rem 1.8rem;
-      border: 1px solid rgba(0, 255, 255, 0.08);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
-
-    .detail-block h3 {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      font-weight: 500;
-      color: #b0d5ff;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-      border-bottom: 1px solid #3f6b9933;
-      padding-bottom: 0.5rem;
-    }
-
-    .detail-block h3 i {
-      color: #6f9eff;
-      font-size: 1.3rem;
-    }
-
-    .detail-block p, .detail-block li {
-      color: #d0e5ff;
-      line-height: 1.6;
+    .organ-card span {
+      font-weight: 600;
       font-size: 1rem;
+      color: #e0f2fe;
     }
 
-    .detail-block ul {
-      list-style: none;
-      padding-left: 0.2rem;
+    /* Features / Glass cards */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 28px;
+      margin: 40px 0 60px;
     }
 
-    .detail-block ul li {
-      padding: 0.4rem 0;
-      border-bottom: 1px solid #2f4a7733;
-    }
-
-    .detail-block ul li:last-child {
-      border: none;
-    }
-
-    .badge-fact {
-      display: inline-block;
-      background: #1f3b77;
-      padding: 0.2rem 1rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      color: #b3d9ff;
-      border: 1px solid #4f7aff44;
-    }
-
-    /* 3D model placeholder - আলাদা করা হলো */
-    .model-3d-placeholder {
-      background: #0c1a30;
-      border-radius: 2rem;
-      padding: 2rem 1rem;
+    .feature-item {
+      padding: 24px 20px;
       text-align: center;
-      border: 1px dashed #6f9eff66;
-      box-shadow: 0 0 40px #1f4bff22;
-      min-height: 150px;
+    }
+
+    .feature-item i {
+      font-size: 2.4rem;
+      color: #00E5FF;
+      margin-bottom: 16px;
+    }
+
+    .feature-item h4 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-item p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+    }
+
+    /* Search & filters */
+    .search-section {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 20px 0 30px;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: space-between;
     }
 
-    .model-3d-placeholder i {
-      font-size: 4rem;
-      color: #5f8eff;
-      filter: drop-shadow(0 0 25px #3f7aff);
-    }
-
-    .model-3d-placeholder span {
-      color: #95baff;
-      font-weight: 300;
-      letter-spacing: 1px;
-    }
-
-    .back-btn {
-      background: transparent;
-      border: 1px solid #3f7aff55;
-      color: #bbd9ff;
-      padding: 0.6rem 1.8rem;
+    .search-bar {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0, 229, 255, 0.15);
       border-radius: 60px;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
+      padding: 8px 8px 8px 24px;
+      display: flex;
+      align-items: center;
+      flex: 1 1 280px;
       backdrop-filter: blur(4px);
     }
 
-    .back-btn:hover {
-      background: #1f3b77;
-      border-color: #8cb3ff;
+    .search-bar i {
+      color: #00E5FF;
+      opacity: 0.6;
     }
 
-    /* search */
-    .live-search {
-      display: flex;
-      justify-content: center;
-      margin: 1.2rem 0 1.8rem;
-    }
-
-    .live-search input {
-      width: 100%;
-      max-width: 480px;
-      padding: 0.9rem 1.8rem;
-      border-radius: 60px;
-      background: rgba(8, 20, 48, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid #3f7aff44;
-      color: #e0f0ff;
+    .search-bar input {
+      background: transparent;
+      border: none;
+      padding: 14px 12px;
+      color: white;
       font-size: 1rem;
+      width: 100%;
       outline: none;
-      transition: 0.3s;
+      font-family: 'Inter', sans-serif;
     }
 
-    .live-search input::placeholder {
-      color: #6a8fc0;
+    .search-bar input::placeholder {
+      color: rgba(255,255,255,0.3);
     }
 
-    .live-search input:focus {
-      border-color: #7aa5ff;
-      box-shadow: 0 0 30px #2f6aff33;
-      background: rgba(12, 28, 58, 0.7);
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0, 229, 255, 0.1);
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .filter-chip:hover, .filter-chip.active {
+      background: rgba(0, 229, 255, 0.1);
+      border-color: #00E5FF;
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 80px;
+      padding: 40px 0 30px;
+      border-top: 1px solid rgba(0, 229, 255, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .footer a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      margin: 0 12px;
+      transition: 0.2s;
+    }
+
+    .footer a:hover {
+      color: #00E5FF;
+    }
+
+    /* scroll top */
+    .scroll-top {
+      position: fixed;
+      bottom: 32px;
+      right: 28px;
+      background: rgba(0, 229, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 60px;
+      padding: 14px 18px;
+      color: #00E5FF;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: 0.25s;
+      z-index: 99;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .scroll-top:hover {
+      background: rgba(0, 229, 255, 0.2);
+      transform: translateY(-4px);
+    }
+
+    /* Dark / light toggle (light mode simulation) */
+    .theme-toggle {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 40px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(0, 229, 255, 0.06);
     }
 
     /* responsive */
-    @media (max-width: 780px) {
-      .detail-grid {
+    @media (max-width: 900px) {
+      .hero-grid {
         grid-template-columns: 1fr;
-        padding: 1.2rem;
-      }
-      .organ-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 1rem;
-      }
-      .lang-bar {
-        justify-content: center;
-      }
-      .hero h1 {
-        font-size: 3.2rem;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .btn-primary, .btn-outline {
-        width: 100%;
         text-align: center;
-        justify-content: center;
       }
-      .hero-actions {
-        flex-direction: column;
-        align-items: center;
+      .hero-content h1 {
+        font-size: 2.6rem;
+      }
+      .hero-content p {
+        margin: 0 auto 28px;
+      }
+      .model-placeholder i {
+        font-size: 5rem;
+      }
+      .section-title {
+        font-size: 2rem;
       }
     }
 
-    /* utility */
-    .mt-1 { margin-top: 0.6rem; }
-    .mb-1 { margin-bottom: 0.6rem; }
-    .flex { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    @media (max-width: 480px) {
+      .organ-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .search-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-primary {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    /* additional micro */
+    .text-gradient {
+      background: linear-gradient(135deg, #a0f0ff, #22D3EE);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-cyan {
+      text-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+    }
+
+    /* from webp content – subtle reference */
+    .webp-tagline {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: rgba(0, 229, 255, 0.25);
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .info-panel {
+      background: rgba(0, 229, 255, 0.02);
+      border-left: 3px solid #00E5FF;
+      padding: 16px 24px;
+      border-radius: 16px;
+      margin: 16px 0;
+      backdrop-filter: blur(2px);
+    }
   </style>
 </head>
 <body>
-<div class="container" id="app">
 
-  <!-- language toggle -->
-  <div class="lang-bar">
-    <button class="lang-btn active" id="langBn"><i class="fas fa-language"></i> বাংলা</button>
-    <button class="lang-btn" id="langEn"><i class="fas fa-globe"></i> English</button>
+  <!-- scroll top -->
+  <div class="scroll-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    <i class="fas fa-arrow-up"></i>
   </div>
 
-  <!-- HERO -->
-  <section class="hero glass-card" style="border-radius: 3rem; padding: 2.5rem 1.5rem;">
-    <h1>🧠 AnatomyVerse</h1>
-    <p id="heroSub">Explore the Human Body in 3D</p>
-    <div class="hero-actions">
-      <button class="btn-primary" id="startLearningBtn"><i class="fas fa-play-circle"></i> <span id="startLabel">Start Learning</span></button>
-      <button class="btn-outline" id="exploreOrgansBtn"><i class="fas fa-heartbeat"></i> <span id="exploreLabel">Explore Organs</span></button>
+  <div class="container">
+
+    <!-- header / nav -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 24px 0 8px; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.8rem; font-weight: 800; font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #00E5FF, #0EA5E9); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AnatomyVerse</span>
+        <span style="font-size: 0.7rem; background: rgba(0,229,255,0.1); padding: 4px 12px; border-radius: 40px; border:1px solid rgba(0,229,255,0.1);">3D</span>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <a href="#" class="btn-outline" style="padding: 8px 20px; font-size:0.9rem;"><i class="fas fa-moon"></i> Theme</a>
+        <a href="#" class="btn-primary" style="padding: 10px 24px; font-size:0.9rem;"><i class="fas fa-rocket"></i> Start</a>
+      </div>
     </div>
-  </section>
 
-  <!-- live search -->
-  <div class="live-search">
-    <input type="text" id="searchInput" placeholder="🔍 Search organs...  (যেমন: Heart)">
-  </div>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="info-panel" style="border-left-color: #0EA5E9; max-width: 400px;">
+            <i class="fas fa-bolt" style="color:#00E5FF; margin-right:8px;"></i> Interactive 3D · Rotate & Zoom
+          </div>
+          <h1>Explore the Human Body in <span style="background: linear-gradient(135deg,#00E5FF,#22D3EE); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Stunning 3D</span></h1>
+          <p>Rotate, zoom, and learn with high-quality organ models. Perfect for students, educators, and curious minds.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+            <a href="#" class="btn-primary"><i class="fas fa-play"></i> Explore Anatomy</a>
+            <a href="#" class="btn-outline"><i class="fas fa-book-open"></i> Start Learning</a>
+          </div>
+          <div class="webp-tagline"><i class="far fa-circle" style="color:#00E5FF;"></i> Stronger Hearts – Longer Lives</div>
+        </div>
+        <div class="hero-3d">
+          <div class="model-placeholder rotating-glow">
+            <i class="fas fa-heartbeat"></i>
+            <div class="badge-3d"><i class="fas fa-rotate-right"></i> 3D preview · heart</div>
+            <div style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); padding: 6px 14px; border-radius: 40px; font-size:0.7rem; border:1px solid rgba(0,229,255,0.2);">🧬 interactive</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- organ grid -->
-  <div class="organ-grid" id="organGrid"></div>
-
-  <!-- scroll hint -->
-  <div class="scroll-hint">
-    <span id="scrollText">✨ Scroll Down</span>
-    <i class="fas fa-chevron-down"></i>
-  </div>
-
-  <!-- DETAIL PANEL (organ page) -->
-  <div id="detailPanel" class="glass-card" style="border-radius: 2.5rem; overflow: hidden;">
-    <div style="padding: 1.2rem 1.8rem 0;">
-      <button class="back-btn" id="closeDetail"><i class="fas fa-arrow-left"></i> <span id="backLabel">Back to organs</span></button>
+    <!-- search & filters -->
+    <div class="search-section">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search organs... e.g. heart, brain, lungs">
+      </div>
+      <div class="filter-group">
+        <span class="filter-chip active">All</span>
+        <span class="filter-chip">Heart</span>
+        <span class="filter-chip">Brain</span>
+        <span class="filter-chip">Lungs</span>
+        <span class="filter-chip">Skeleton</span>
+      </div>
     </div>
-    <div class="detail-grid" id="detailContent">
-      <!-- dynamic content rendered by js -->
+
+    <!-- organ grid -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap;">
+      <div>
+        <h2 class="section-title">🫀 Organs <span style="font-weight: 400; color:rgba(255,255,255,0.3);">in 3D</span></h2>
+        <p class="section-sub">Click any organ to explore • rotate & zoom</p>
+      </div>
+      <span style="color: rgba(255,255,255,0.2); font-size:0.9rem;"><i class="fas fa-arrows-alt"></i> drag to rotate</span>
+    </div>
+
+    <div class="organ-grid">
+      <div class="organ-card"><i class="fas fa-heart"></i><span>Heart</span></div>
+      <div class="organ-card"><i class="fas fa-brain"></i><span>Brain</span></div>
+      <div class="organ-card"><i class="fas fa-lungs"></i><span>Lungs</span></div>
+      <div class="organ-card"><i class="fas fa-bone"></i><span>Skeleton</span></div>
+      <div class="organ-card"><i class="fas fa-filter"></i><span>Liver</span></div>
+      <div class="organ-card"><i class="fas fa-fill-drip"></i><span>Kidneys</span></div>
+      <div class="organ-card"><i class="fas fa-eye"></i><span>Eyes</span></div>
+      <div class="organ-card"><i class="fas fa-tooth"></i><span>Teeth</span></div>
+      <div class="organ-card"><i class="fas fa-dna"></i><span>Muscles</span></div>
+      <div class="organ-card"><i class="fas fa-nerve"></i><span>Nervous</span></div>
+    </div>
+
+    <!-- Features cards -->
+    <div class="features-grid">
+      <div class="feature-item glass-card"><i class="fas fa-cube"></i><h4>Interactive 3D</h4><p>Rotate, zoom &amp; inspect every organ</p></div>
+      <div class="feature-item glass-card"><i class="fas fa-info-circle"></i><h4>Information Panel</h4><p>Detailed anatomy descriptions</p></div>
+      <div class="feature-item glass-card"><i class="fas fa-adjust"></i><h4>Dark / Light</h4><p>Toggle themes seamlessly</p></div>
+      <div class="feature-item glass-card"><i class="fas fa-mobile-alt"></i><h4>Responsive</h4><p>Perfect on mobile &amp; desktop</p></div>
+    </div>
+
+    <!-- About + Contact snippet -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 40px 0 20px;">
+      <div class="glass-card" style="padding: 30px;">
+        <h3 style="font-family: 'Poppins', sans-serif;"><i class="fas fa-address-card" style="color:#00E5FF; margin-right:12px;"></i>About</h3>
+        <p style="color: rgba(255,255,255,0.7);">AnatomyVerse brings medical-grade 3D models to everyone. Built for education and exploration.</p>
+        <div style="margin-top: 16px;"><i class="fas fa-check-circle" style="color:#22D3EE;"></i> 30+ organs available</div>
+      </div>
+      <div class="glass-card" style="padding: 30px;">
+        <h3 style="font-family: 'Poppins', sans-serif;"><i class="fas fa-envelope" style="color:#00E5FF; margin-right:12px;"></i>Contact</h3>
+        <p style="color: rgba(255,255,255,0.7);">Have questions? Reach out to our team.</p>
+        <a href="#" style="color: #00E5FF; text-decoration: none; font-weight: 600;">hello@anatomyverse.dev <i class="fas fa-arrow-right"></i></a>
+        <div style="margin-top: 16px; display: flex; gap: 12px;">
+          <span style="background: rgba(0,229,255,0.05); padding:6px 14px; border-radius:40px; font-size:0.8rem;"><i class="fab fa-twitter"></i> @anatomy3d</span>
+          <span style="background: rgba(0,229,255,0.05); padding:6px 14px; border-radius:40px; font-size:0.8rem;"><i class="fab fa-github"></i> anatomyverse</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>© 2026 AnatomyVerse 3D · <span style="color:rgba(255,255,255,0.2);">made to make clear</span></div>
+      <div>
+        <a href="#"><i class="fab fa-sketchfab"></i></a>
+        <a href="#"><i class="fas fa-cube"></i></a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#"><i class="fas fa-arrow-up"></i></a>
+      </div>
+    </footer>
+
+    <!-- extra: subtle note from webp content -->
+    <div style="text-align: center; padding: 20px 0 10px; font-size: 0.75rem; color: rgba(255,255,255,0.08); letter-spacing: 1px;">
+      <span>Good Court · End Consultation</span>
     </div>
   </div>
 
-</div>
-
-<script>
-  (function() {
-    // ---------- DATA ----------
-    const organsData = [
-      { id: 'heart', nameBn: '❤️ Heart', nameEn: '❤️ Heart', icon: 'fas fa-heart', 
-        function: 'পাম্প করে রক্ত সারা শরীরে।', functionEn: 'Pumps blood throughout the body.',
-        location: 'বুকের মাঝখানে, ফুসফুসের মাঝে।', locationEn: 'Middle of chest, between lungs.',
-        diseases: 'হার্ট অ্যাটাক, করোনারি আর্টারি ডিজিজ, হার্ট ফেইলিউর।', diseasesEn: 'Heart attack, CAD, heart failure.',
-        quiz: 'প্রাপ্তবয়স্ক মানুষের হৃদয় প্রতিদিন প্রায় কতবার স্পন্দিত হয়?', quizEn: 'How many times does an adult heart beat per day?',
-        facts: 'প্রতিদিন ~১,১৫,০০০ বার স্পন্দিত হয়।', factsEn: 'Beats ~115,000 times/day.' },
-      { id: 'brain', nameBn: '🧠 Brain', nameEn: '🧠 Brain', icon: 'fas fa-brain',
-        function: 'শরীরের নিয়ন্ত্রণ কেন্দ্র।', functionEn: 'Control center of the body.',
-        location: 'মাথার খুলির ভিতরে।', locationEn: 'Inside the skull.',
-        diseases: 'মাইগ্রেন, স্ট্রোক, আলঝেইমার।', diseasesEn: 'Migraine, stroke, Alzheimer\'s.',
-        quiz: 'মস্তিষ্কের ওজন প্রায় কত?', quizEn: 'Approx. weight of human brain?',
-        facts: '~১.৩-১.৪ কেজি, ৮৬ বিলিয়ন নিউরন।', factsEn: '~1.3-1.4 kg, 86B neurons.' },
-      { id: 'lungs', nameBn: '🫁 Lungs', nameEn: '🫁 Lungs', icon: 'fas fa-lungs',
-        function: 'অক্সিজেন গ্রহণ ও CO₂ বের করা।', functionEn: 'Oxygen intake & CO₂ removal.',
-        location: 'বুকের গহ্বর, হৃদয়ের দুই পাশে।', locationEn: 'Chest cavity, either side of heart.',
-        diseases: 'অ্যাজমা, নিউমোনিয়া, ফুসফুসের ক্যান্সার।', diseasesEn: 'Asthma, pneumonia, lung cancer.',
-        quiz: 'একজন প্রাপ্তবয়স্ক প্রতিদিন কতবার শ্বাস নেয়?', quizEn: 'How many breaths per day?',
-        facts: 'প্রতিদিন ~২০,০০০ বার শ্বাস।', factsEn: '~20,000 breaths/day.' },
-      { id: 'kidney', nameBn: '🫘 Kidney', nameEn: '🫘 Kidney', icon: 'fas fa-filter',
-        function: 'রক্ত পরিশোধন ও পানি ভারসাম্য।', functionEn: 'Blood filtration & water balance.',
-        location: 'পিঠের দুই পাশে, কোমরের কাছে।', locationEn: 'Either side of spine, lower back.',
-        diseases: 'কিডনি ইনফেকশন, স্টোন, ক্রনিক কিডনি ডিজিজ।', diseasesEn: 'Infection, stones, CKD.',
-        quiz: 'কিডনি প্রতি মিনিটে কতটুকু রক্ত ফিল্টার করে?', quizEn: 'How much blood does kidney filter per min?',
-        facts: 'প্রতি মিনিটে ~১.২ লিটার রক্ত ফিল্টার।', factsEn: '~1.2L blood filtered/min.' },
-      { id: 'liver', nameBn: '🫀 Liver', nameEn: '🫀 Liver', icon: 'fas fa-hand-holding-heart',
-        function: 'বিপাক, ডিটক্স, পিত্ত উৎপাদন।', functionEn: 'Metabolism, detox, bile production.',
-        location: 'পেটের ডান উপরের অংশে।', locationEn: 'Upper right abdomen.',
-        diseases: 'হেপাটাইটিস, ফ্যাটি লিভার, সিরোসিস।', diseasesEn: 'Hepatitis, fatty liver, cirrhosis.',
-        quiz: 'লিভারের ওজন কত?', quizEn: 'Weight of liver?',
-        facts: '~১.৪ কেজি, ৫০০+ কার্য সম্পাদন করে।', factsEn: '~1.4kg, 500+ functions.' },
-      { id: 'skeleton', nameBn: '🦴 Skeleton', nameEn: '🦴 Skeleton', icon: 'fas fa-bone',
-        function: 'শরীরের কাঠামো, অঙ্গ সুরক্ষা।', functionEn: 'Body structure, organ protection.',
-        location: 'সারা শরীর জুড়ে।', locationEn: 'Throughout the body.',
-        diseases: 'অস্টিওপোরোসিস, আর্থ্রাইটিস, ফ্র্যাকচার।', diseasesEn: 'Osteoporosis, arthritis, fractures.',
-        quiz: 'মানবদেহে কতটি হাড় আছে?', quizEn: 'How many bones in human body?',
-        facts: 'শিশুদের ~২৭০, প্রাপ্তবয়স্কদের ~২০৬টি।', factsEn: 'Babies ~270, adults ~206.' }
-    ];
-
-    // extra organs for rich experience (total 8)
-    const extraOrgans = [
-      { id: 'stomach', nameBn: '🫃 Stomach', nameEn: '🫃 Stomach', icon: 'fas fa-utensils',
-        function: 'খাবার হজম ও সংরক্ষণ।', functionEn: 'Digestion & food storage.',
-        location: 'পেটের বাম উপরের অংশ।', locationEn: 'Left upper abdomen.',
-        diseases: 'গ্যাস্ট্রাইটিস, আলসার, ক্যান্সার।', diseasesEn: 'Gastritis, ulcer, cancer.',
-        quiz: 'পাকস্থলীর রসের pH কত?', quizEn: 'pH of stomach acid?',
-        facts: 'pH ~১.৫-৩.৫, খুব অম্লীয়।', factsEn: 'pH ~1.5-3.5, highly acidic.' },
-      { id: 'intestine', nameBn: '🫄 Intestine', nameEn: '🫄 Intestine', icon: 'fas fa-dna',
-        function: 'পুষ্টি শোষণ ও বর্জ্য অপসারণ।', functionEn: 'Nutrient absorption & waste removal.',
-        location: 'পেটের মাঝামাঝি থেকে নিচ পর্যন্ত।', locationEn: 'Mid to lower abdomen.',
-        diseases: 'ক্রোনস, IBS, কোলাইটিস।', diseasesEn: 'Crohn\'s, IBS, colitis.',
-        quiz: 'ক্ষুদ্রান্ত্রের দৈর্ঘ্য কত?', quizEn: 'Length of small intestine?',
-        facts: 'প্রায় ৬ মিটার লম্বা।', factsEn: '~6 meters long.' }
-    ];
-
-    const allOrgans = [...organsData, ...extraOrgans];
-    let currentLang = 'bn'; // 'bn' or 'en'
-    let currentOrganId = null;
-
-    // DOM refs
-    const grid = document.getElementById('organGrid');
-    const searchInput = document.getElementById('searchInput');
-    const detailPanel = document.getElementById('detailPanel');
-    const detailContent = document.getElementById('detailContent');
-    const closeDetailBtn = document.getElementById('closeDetail');
-    const langBn = document.getElementById('langBn');
-    const langEn = document.getElementById('langEn');
-
-    // hero text elements
-    const heroSub = document.getElementById('heroSub');
-    const startLabel = document.getElementById('startLabel');
-    const exploreLabel = document.getElementById('exploreLabel');
-    const scrollText = document.getElementById('scrollText');
-    const backLabel = document.getElementById('backLabel');
-
-    // ----- RENDER GRID -----
-    function renderOrganGrid(filter = '') {
-      const q = filter.toLowerCase().trim();
-      let filtered = allOrgans;
-      if (q) {
-        filtered = allOrgans.filter(o => {
-          const name = currentLang === 'bn' ? o.nameBn : o.nameEn;
-          return name.toLowerCase().includes(q);
-        });
-      }
-      grid.innerHTML = '';
-      filtered.forEach(org => {
-        const card = document.createElement('div');
-        card.className = 'organ-card';
-        const displayName = currentLang === 'bn' ? org.nameBn : org.nameEn;
-        card.innerHTML = `<i class="${org.icon}"></i><span>${displayName}</span>`;
-        card.dataset.id = org.id;
-        card.addEventListener('click', () => openDetail(org.id));
-        grid.appendChild(card);
+  <!-- tiny interactive demo: filter chips change active -->
+  <script>
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', function(e) {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
       });
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#7799cc;">${currentLang === 'bn' ? 'কোন অঙ্গ পাওয়া যায়নি' : 'No organs found'}</div>`;
-      }
-    }
-
-    // ----- OPEN DETAIL -----
-    function openDetail(id) {
-      const org = allOrgans.find(o => o.id === id);
-      if (!org) return;
-      currentOrganId = id;
-      const lang = currentLang;
-      const isBn = lang === 'bn';
-
-      const name = isBn ? org.nameBn : org.nameEn;
-      const func = isBn ? org.function : org.functionEn;
-      const loc = isBn ? org.location : org.locationEn;
-      const dis = isBn ? org.diseases : org.diseasesEn;
-      const quiz = isBn ? org.quiz : org.quizEn;
-      const facts = isBn ? org.facts : org.factsEn;
-
-      detailContent.innerHTML = `
-        <div class="detail-left">
-          <div class="detail-block">
-            <h3><i class="fas fa-cube"></i> 3D Model</h3>
-            <div class="model-3d-placeholder">
-              <i class="${org.icon}" style="font-size:5rem;"></i>
-              <span>${isBn ? '🔮 ৩ডি মডেল (ইন্টারেক্টিভ)' : '🔮 3D Model (interactive)'}</span>
-              
-
-             <span style="font-size:0.8rem; opacity:0.6;">${isBn ? 'ঘোরানোর জন্য টেনে আনুন' : 'drag to rotate'}</span>
-            </div>
-          </div>
-          <div class="detail-block">
-            <h3><i class="fas fa-info-circle"></i> ${isBn ? 'ফাংশন' : 'Function'}</h3>
-            <p>${func}</p>
-          </div>
-          <div class="detail-block">
-            <h3><i class="fas fa-map-pin"></i> ${isBn ? 'অবস্থান' : 'Location'}</h3>
-            <p>${loc}</p>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-block">
-            <h3><i class="fas fa-notes-medical"></i> ${isBn ? 'রোগসমূহ' : 'Diseases'}</h3>
-            <p>${dis}</p>
-          </div>
-          <div class="detail-block">
-            <h3><i class="fas fa-question-circle"></i> ${isBn ? 'কুইজ' : 'Quiz'}</h3>
-            <p>${quiz}</p>
-            <div style="margin-top:0.8rem;"><span class="badge-fact"><i class="far fa-lightbulb"></i> ${isBn ? 'উত্তর জানেন?' : 'Know the answer?'}</span></div>
-          </div>
-          <div class="detail-block">
-            <h3><i class="fas fa-star"></i> ${isBn ? 'মজার তথ্য' : 'Interesting Facts'}</h3>
-            <ul><li>🧬 ${facts}</li></ul>
-          </div>
-        </div>
-      `;
-
-      detailPanel.style.display = 'block';
-      detailPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // close detail
-    function closeDetail() {
-      detailPanel.style.display = 'none';
-      currentOrganId = null;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // update language for all texts
-    function updateLanguage(lang) {
-      currentLang = lang;
-      const isBn = lang === 'bn';
-
-      // toggle active class
-      langBn.classList.toggle('active', isBn);
-      langEn.classList.toggle('active', !isBn);
-      
-
-
-
-
-
-        // hero
-      heroSub.textContent = isBn ? 'Explore the Human Body in 3D' : 'Explore the Human Body in 3D'; // both same, but keep
-      startLabel.textContent = isBn ? 'Start Learning' : 'Start Learning';
-      exploreLabel.textContent = isBn ? 'Explore Organs' : 'Explore Organs';
-      scrollText.textContent = isBn ? '✨ Scroll Down' : '✨ Scroll Down';
-      backLabel.textContent = isBn ? 'Back to organs' : 'Back to organs';
-
-      // re-render grid
-      renderOrganGrid(searchInput.value);
-
-      // if detail open, refresh it
-      if (currentOrganId) {
-        openDetail(currentOrganId);
-      }
-    }
-
-    // ----- EVENT BINDINGS -----
-    // language
-    langBn.addEventListener('click', () => { if (currentLang !== 'bn') updateLanguage('bn'); });
-    langEn.addEventListener('click', () => { if (currentLang !== 'en') updateLanguage('en'); });
-
-    // search
-    searchInput.addEventListener('input', (e) => {
-      renderOrganGrid(e.target.value);
     });
 
-    // close detail
-    closeDetailBtn.addEventListener('click', closeDetail);
-
-    // hero buttons: Start learning -> scroll to grid; Explore organs -> scroll to grid
-    document.getElementById('startLearningBtn').addEventListener('click', () => {
-      document.getElementById('organGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    document.getElementById('exploreOrgansBtn').addEventListener('click', () => {
-      document.getElementById('organGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    // init
-    updateLanguage('bn');
-    renderOrganGrid();
-
-    // extra: close detail if click outside? not needed.
-  })();
-</script>
+    // theme toggle mock (only visual)
+    const themeBtn = document.querySelector('.btn-outline .fa-moon')?.parentElement;
+    if (themeBtn) {
+      themeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.body.style.backgroundColor = document.body.style.backgroundColor === '#f0f4ff' ? '#07111F' : '#f0f4ff';
+        document.body.style.color = document.body.style.backgroundColor === '#f0f4ff' ? '#111' : 'white';
+        // rough toggle for demo
+      });
+    }
+  </script>
 </body>
 </html>
+```
