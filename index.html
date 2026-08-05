@@ -3,260 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Body Anatomy Explorer</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: #1a1e29;
-            color: #ffffff;
-            overflow: hidden;
-        }
-
-        /* Sidebar Navigation */
-        #sidebar {
-            width: 320px;
-            background-color: #0f1219;
-            border-right: 1px solid #2a3142;
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-        }
-
-        .header {
-            padding: 20px;
-            background-color: #161b26;
-            border-bottom: 1px solid #2a3142;
-        }
-
-        .header h2 {
-            font-size: 1.2rem;
-            color: #00d2ff;
-        }
-
-        .system-list {
-            list-style: none;
-            padding: 10px;
-        }
-
-        .system-item {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background-color: #1a202c;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .system-item:hover, .system-item.active {
-            background-color: #00d2ff;
-            color: #000;
-            font-weight: bold;
-        }
-
-        /* Main Viewport */
-        #viewport {
-            flex: 1;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, #252e3f 0%, #0f1219 100%);
-        }
-
-        /* Anatomy Viewer */
-        .anatomy-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        svg {
-            max-height: 85%;
-            filter: drop-shadow(0px 0px 10px rgba(0, 210, 255, 0.2));
-        }
-
-        /* Hotspots Styling */
-        .organ-path {
-            fill: #3a4763;
-            stroke: #00d2ff;
-            stroke-width: 1.5;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .organ-path:hover {
-            fill: #00d2ff !important;
-            filter: drop-shadow(0px 0px 12px #00d2ff);
-        }
-
-        .organ-path.active {
-            fill: #ff4757 !important;
-            stroke: #ffffff;
-        }
-
-        /* Information Panel */
-        #info-panel {
-            width: 350px;
-            background-color: #0f1219;
-            border-left: 1px solid #2a3142;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .info-title {
-            font-size: 1.5rem;
-            color: #00d2ff;
-            border-bottom: 2px solid #00d2ff;
-            padding-bottom: 8px;
-        }
-
-        .info-desc {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #a0aec0;
-        }
-
-        .badge {
-            align-self: flex-start;
-            padding: 4px 10px;
-            border-radius: 12px;
-            background-color: #2d3748;
-            font-size: 0.8rem;
-            color: #e2e8f0;
-        }
-    </style>
+    <title>Human Anatomy Explorer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Left Navigation -->
-    <div id="sidebar">
-        <div class="header">
-            <h2>Anatomy Systems</h2>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Anatomy Explorer</h1>
+            <p class="subtitle">Human Body Systems & Interactive Guide</p>
         </div>
-        <ul class="system-list">
-            <li class="system-item active" onclick="selectSystem('all')">All Systems</li>
-            <li class="system-item" onclick="selectSystem('nervous')">Nervous System</li>
-            <li class="system-item" onclick="selectSystem('circulatory')">Circulatory System</li>
-            <li class="system-item" onclick="selectSystem('digestive')">Digestive System</li>
-        </ul>
-    </div>
+    </header>
 
-    <!-- Center Canvas / Viewer -->
-    <div id="viewport">
-        <div class="anatomy-container">
-            <svg viewBox="0 0 300 600" width="100%" height="100%">
-                <!-- Base Body Outline -->
-                <path d="M 150 30 C 130 30 120 50 120 70 C 120 100 110 120 90 140 C 80 150 70 200 60 280 C 55 320 65 350 70 380 L 80 570 L 130 570 L 145 350 L 150 350 L 155 350 L 170 570 L 220 570 L 230 380 C 235 350 245 320 240 280 C 230 200 220 150 210 140 C 190 120 180 100 180 70 C 180 50 170 30 150 30 Z" 
-                      fill="#1e2638" stroke="#3a4763" stroke-width="2"/>
+    <!-- Main Content -->
+    <main class="container">
+        <section class="intro-text">
+            <h2>Human Anatomy Explorer</h2>
+            <p>There are 12 major anatomy systems in the human body. Select a system below to learn more about its organs, structures, and functions.</p>
+        </section>
 
-                <!-- Interactive Organs (Hotspots) -->
-                <!-- Brain (Nervous) -->
-                <path id="organ-brain" class="organ-path nervous" 
-                      d="M 135 45 C 135 35 165 35 165 45 C 170 55 165 65 150 65 C 135 65 130 55 135 45 Z" 
-                      onclick="showInfo('Brain')"/>
+        <!-- Anatomy Grid -->
+        <div class="anatomy-grid">
 
-                <!-- Heart (Circulatory) -->
-                <path id="organ-heart" class="organ-path circulatory" 
-                      d="M 145 150 C 145 140 165 140 165 155 C 165 165 150 175 150 175 C 150 175 138 165 145 150 Z" 
-                      onclick="showInfo('Heart')"/>
+            <!-- Card 1 -->
+            <a href="#" class="card">
+                <div class="card-icon">🦴</div>
+                <h3>Skeletal System</h3>
+                <p>Includes all of the bones and joints in the body that provide structure and protection.</p>
+            </a>
 
-                <!-- Lungs (Respiratory / General) -->
-                <path id="organ-lungs" class="organ-path" 
-                      d="M 120 140 C 135 140 140 180 130 200 C 120 200 110 180 120 140 Z M 180 140 C 165 140 160 180 170 200 C 180 200 190 180 180 140 Z" 
-                      onclick="showInfo('Lungs')"/>
+            <!-- Card 2 -->
+            <a href="#" class="card">
+                <div class="card-icon">💪</div>
+                <h3>Muscular System</h3>
+                <p>Responsible for the movement of the human body and maintaining posture.</p>
+            </a>
 
-                <!-- Stomach (Digestive) -->
-                <path id="organ-stomach" class="organ-path digestive" 
-                      d="M 140 210 C 160 200 170 220 160 240 C 145 250 135 230 140 210 Z" 
-                      onclick="showInfo('Stomach')"/>
-            </svg>
+            <!-- Card 3 -->
+            <a href="#" class="card">
+                <div class="card-icon">❤️</div>
+                <h3>Cardiovascular System</h3>
+                <p>Consists of the heart and blood vessels that transport oxygen and nutrients.</p>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="#" class="card">
+                <div class="card-icon">🥗</div>
+                <h3>Digestive System</h3>
+                <p>Converts food into energy and basic nutrients to feed the entire body.</p>
+            </a>
+
+            <!-- Card 5 -->
+            <a href="#" class="card">
+                <div class="card-icon">🧠</div>
+                <h3>Nervous System</h3>
+                <p>Consists of the brain, spinal cord, and nerves that control body activities.</p>
+            </a>
+
+            <!-- Card 6 -->
+            <a href="#" class="card">
+                <div class="card-icon">🫁</div>
+                <h3>Respiratory System</h3>
+                <p>Provides oxygen to the body's cells while removing carbon dioxide.</p>
+            </a>
+
+            <!-- Card 7 -->
+            <a href="#" class="card">
+                <div class="card-icon">🧬</div>
+                <h3>Endocrine System</h3>
+                <p>Includes glands that produce hormones to regulate metabolism and growth.</p>
+            </a>
+
+            <!-- Card 8 -->
+            <a href="#" class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Immune & Lymphatic System</h3>
+                <p>Defends the body against infection, diseases, and foreign invaders.</p>
+            </a>
+
+            <!-- Card 9 -->
+            <a href="#" class="card">
+                <div class="card-icon">🩺</div>
+                <h3>Urinary System</h3>
+                <p>Filters excess fluid and waste products from the bloodstream.</p>
+
+            <!-- Card 10 -->
+            <a href="#" class="card">
+                <div class="card-icon">🩹</div>
+                <h3>Integumentary System</h3>
+                <p>Consists of skin, hair, nails, and glands that protect the body.</p>
+            </a>
+
+            <!-- Card 11 -->
+            <a href="#" class="card">
+                <div class="card-icon">♀️</div>
+                <h3>Female Reproductive System</h3>
+                <p>Includes organs responsible for producing eggs and offspring development.</p>
+            </a>
+
+            <!-- Card 12 -->
+            <a href="#" class="card">
+                <div class="card-icon">♂️</div>
+                <h3>Male Reproductive System</h3>
+                <p>Includes organs responsible for producing sperm and male hormones.</p>
+            </a>
+
         </div>
-    </div>
+    </main>
 
-    <!-- Right Data Panel -->
-    <div id="info-panel">
-        <span class="badge" id="info-category">System: Overview</span>
-        <h1 class="info-title" id="info-title">Human Body</h1>
-        <p class="info-desc" id="info-desc">
-            Kon ekti organ ba system-er upor click koro tar bistarito tottho dekhbar jonno.
-        </p>
-    </div>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Anatomy Explorer. All rights reserved.</p>
+            <p class="disclaimer">Disclaimer: This content is for educational purposes only and does not substitute professional medical advice.</p>
+        </div>
+    </footer>
 
-    <script>
-        // Data Store for Anatomy
-        const anatomyData = {
-            'Brain': {
-                title: 'Brain (মস্তিষ্ক)',
-                category: 'Nervous System',
-                desc: 'মস্তিষ্ক মানব স্নায়ুতন্ত্রের কেন্দ্রীয় অঙ্গ। এটি শরীরের সমস্ত ক্রিয়াকলাপ নিয়ন্ত্রণ করে এবং তথ্য প্রক্রিয়াকরণ করে।'
-            },
-            'Heart': {
-                title: 'Heart (হৃদপিণ্ড)',
-                category: 'Circulatory System',
-                desc: 'হৃদপিণ্ড পেশীবহুল অঙ্গ যা রক্তসংবহন তন্ত্রের মাধ্যমে সারা শরীরে রক্ত পাম্প করে অক্সিজেন এবং পুষ্টি সরবরাহ করে।'
-            },
-            'Lungs': {
-                title: 'Lungs (ফুসফুস)',
-                category: 'Respiratory System',
-                desc: 'ফুসফুস শ্বাসতন্ত্রের প্রধান অঙ্গ। এটি বাতাস থেকে অক্সিজেন গ্রহণ করে রক্তে পাঠায় এবং কার্বন ডাই অক্সাইড বের করে দেয়।'
-            },
-            'Stomach': {
-                title: 'Stomach (পাকস্থলী)',
-                category: 'Digestive System',
-                desc: 'পাকস্থলী পরিপাকতন্ত্রের একটি গুরুত্বপূর্ণ অঙ্গ। এটি খাদ্য হজম করতে প্রয়োজনীয় এসিড এবং এনজাইম নিসরণ করে।'
-            }
-        };
-
-        // Function to Display Information
-        function showInfo(organKey) {
-            const data = anatomyData[organKey];
-            if (!data) return;
-
-            document.getElementById('info-title').innerText = data.title;
-            document.getElementById('info-category').innerText = `System: ${data.category}`;
-            document.getElementById('info-desc').innerText = data.desc;
-
-            // Active Class Highlight Update
-            document.querySelectorAll('.organ-path').forEach(el => el.classList.remove('active'));
-            const selectedElement = document.getElementById(`organ-${organKey.toLowerCase()}`);
-            if (selectedElement) {
-                selectedElement.classList.add('active');
-            }
-        }
-
-        // System Filtering Function
-        function selectSystem(systemName) {
-            const items = document.querySelectorAll('.system-item');
-            items.forEach(item => item.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const organs = document.querySelectorAll('.organ-path');
-            organs.forEach(organ => {
-                if (systemName === 'all' || organ.classList.contains(systemName)) {
-                    organ.style.opacity = '1';
-                    organ.style.pointerEvents = 'auto';
-                } else {
-                    organ.style.opacity = '0.15';
-                    organ.style.pointerEvents = 'none';
-                }
-            });
-        }
-    </script>
 </body>
-</html>
+    </html>
+    
