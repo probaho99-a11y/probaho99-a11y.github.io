@@ -1,125 +1,180 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Anatomy Explorer</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Human Organ Viewer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+    }
+    .ui-overlay {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 320px;
+    }
+    h1 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #38bdf8;
+    }
+    p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 15px;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      color: #38bdf8;
+      display: none;
+    }
+  </style>
+
+  <!-- Three.js Libraries CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
 
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">Anatomy Explorer</h1>
-            <p class="subtitle">Human Body Systems & Interactive Guide</p>
-        </div>
-    </header>
+  <div class="ui-overlay">
+    <h1>3D Organ Interactive Viewer</h1>
+    <p>মাউস দিয়ে মডেল ৩৬০ ডিগ্রিতে ঘুরিয়ে দেখুন এবং জুম করুন।</p>
+    <label for="organSelect" style="display:block; margin-bottom:5px; font-size:0.8rem;">অঙ্গ নির্বাচন করুন:</label>
+    <select id="organSelect">
+      <option value="heart">Heart (হৃদপিণ্ড)</option>
+      <option value="brain">Brain (মস্তিষ্ক)</option>
+    </select>
+  </div>
 
-    <!-- Main Content -->
-    <main class="container">
-        <section class="intro-text">
-            <h2>Human Anatomy Explorer</h2>
-            <p>There are 12 major anatomy systems in the human body. Select a system below to learn more about its organs, structures, and functions.</p>
-        </section>
+  <div id="loading" class="loading">3D মডেল লোড হচ্ছে...</div>
+  <div id="canvas-container"></div>
 
-        <!-- Anatomy Grid -->
-        <div class="anatomy-grid">
+  <script>
+    // 1. Scene, Camera, Renderer Setup
+    const container = document.getElementById('canvas-container');
+    const loadingElem = document.getElementById('loading');
 
-            <!-- Card 1 -->
-            <a href="#" class="card">
-                <div class="card-icon">🦴</div>
-                <h3>Skeletal System</h3>
-                <p>Includes all of the bones and joints in the body that provide structure and protection.</p>
-            </a>
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f172a);
 
-            <!-- Card 2 -->
-            <a href="#" class="card">
-                <div class="card-icon">💪</div>
-                <h3>Muscular System</h3>
-                <p>Responsible for the movement of the human body and maintaining posture.</p>
-            </a>
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 5);
 
-            <!-- Card 3 -->
-            <a href="#" class="card">
-                <div class="card-icon">❤️</div>
-                <h3>Cardiovascular System</h3>
-                <p>Consists of the heart and blood vessels that transport oxygen and nutrients.</p>
-            </a>
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
 
-            <!-- Card 4 -->
-            <a href="#" class="card">
-                <div class="card-icon">🥗</div>
-                <h3>Digestive System</h3>
-                <p>Converts food into energy and basic nutrients to feed the entire body.</p>
-            </a>
+    // 2. Orbit Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
 
-            <!-- Card 5 -->
-            <a href="#" class="card">
-                <div class="card-icon">🧠</div>
-                <h3>Nervous System</h3>
-                <p>Consists of the brain, spinal cord, and nerves that control body activities.</p>
-            </a>
+    // 3. Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    scene.add(ambientLight);
 
-            <!-- Card 6 -->
-            <a href="#" class="card">
-                <div class="card-icon">🫁</div>
-                <h3>Respiratory System</h3>
-                <p>Provides oxygen to the body's cells while removing carbon dioxide.</p>
-            </a>
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight1.position.set(5, 10, 7);
+    scene.add(dirLight1);
 
-            <!-- Card 7 -->
-            <a href="#" class="card">
-                <div class="card-icon">🧬</div>
-                <h3>Endocrine System</h3>
-                <p>Includes glands that produce hormones to regulate metabolism and growth.</p>
-            </a>
+    const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 1);
+    dirLight2.position.set(-5, -5, -5);
+    scene.add(dirLight2);
 
-            <!-- Card 8 -->
-            <a href="#" class="card">
-                <div class="card-icon">🛡️</div>
-                <h3>Immune & Lymphatic System</h3>
-                <p>Defends the body against infection, diseases, and foreign invaders.</p>
-            </a>
+    // 4. Model Loader
+    const loader = new THREE.GLTFLoader();
+    let currentModel = null;
 
-            <!-- Card 9 -->
-            <a href="#" class="card">
-                <div class="card-icon">🩺</div>
-                <h3>Urinary System</h3>
-                <p>Filters excess fluid and waste products from the bloodstream.</p>
+    // ৩ডি মডেল ফাইল ইউআরএল (এখানে আপনার .glb বা .gltf ফাইলের পাথ দিন)
+    const organModels = {
+      heart: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb', // টেস্ট মডেলের উদাহরণ
+      brain: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb'  // টেস্ট মডেলের উদাহরণ
+    };
 
-            <!-- Card 10 -->
-            <a href="#" class="card">
-                <div class="card-icon">🩹</div>
-                <h3>Integumentary System</h3>
-                <p>Consists of skin, hair, nails, and glands that protect the body.</p>
-            </a>
+    function loadModel(url) {
+      if (currentModel) scene.remove(currentModel);
+      loadingElem.style.display = 'block';
 
-            <!-- Card 11 -->
-            <a href="#" class="card">
-                <div class="card-icon">♀️</div>
-                <h3>Female Reproductive System</h3>
-                <p>Includes organs responsible for producing eggs and offspring development.</p>
-            </a>
+      loader.load(
+        url,
+        (gltf) => {
+          currentModel = gltf.scene;
+          
+          // স্কেল এবং পজিশনিং ঠিক করা
+          currentModel.scale.set(1.5, 1.5, 1.5);
+          currentModel.position.set(0, -0.5, 0);
 
-            <!-- Card 12 -->
-            <a href="#" class="card">
-                <div class="card-icon">♂️</div>
-                <h3>Male Reproductive System</h3>
-                <p>Includes organs responsible for producing sperm and male hormones.</p>
-            </a>
+          scene.add(currentModel);
+          loadingElem.style.display = 'none';
+        },
+        (xhr) => {
+          // প্রোগ্রেস ট্র্যাকিং
+        },
+        (error) => {
+          console.error('An error happened:', error);
+          loadingElem.innerText = 'মডেল লোড করতে সমস্যা হয়েছে!';
+        }
+      );
+    }
 
-        </div>
-    </main>
+    // প্রাথমিক মডেল লোড
+    loadModel(organModels.heart);
 
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Anatomy Explorer. All rights reserved.</p>
-            <p class="disclaimer">Disclaimer: This content is for educational purposes only and does not substitute professional medical advice.</p>
-        </div>
-    </footer>
+    // Dropdown Change Event
+    document.getElementById('organSelect').addEventListener('change', (e) => {
+      loadModel(organModels[e.target.value]);
+    });
 
+    // 5. Window Resize Handle
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // 6. Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
 </body>
-    </html>
-    
+</html>
